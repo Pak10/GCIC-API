@@ -3,14 +3,13 @@
 namespace App\Http\Traits\Otp;
 
 use App\Models\Transactions\Otp;
-use App\Http\Traits\Otp\SaasPassTrait;
 use App\Http\Traits\Otp\EmailTrait;
 use App\Http\Traits\Otp\SmsTrait;
 use Str;
 
 trait OtpTrait {
 
-    use SaasPassTrait, EmailTrait, SmsTrait;
+    use EmailTrait, SmsTrait;
 
     public function verifyOtp($mfa_source, $otp, $user, $purpose){
 

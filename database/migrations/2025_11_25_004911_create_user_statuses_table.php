@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mfa_sources', function (Blueprint $table) {
+        Schema::create('user_statuses', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('display_name');
-            $table->string('mfa_source');
-            $table->boolean('system_generated_otp')->default(true);
+            $table->string('status');
+            $table->mediumText('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mfa_sources');
+        Schema::dropIfExists('user_statuses');
     }
 };

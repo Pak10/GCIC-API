@@ -15,11 +15,23 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('phone_number')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->enum('category', ['member', 'administrator']);
             $table->string('password');
+            $table->foreignUuid('user_status_id')->constrained();
+            $table->foreignUuid('user_registration_id')->nullable()->constrained();
+            $table->uuid('reviewed_by')->nullable();
+            $table->uuid('approved_by')->nullable();
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+
+            $table->foreign('reviewed_by')->references('id')->on('users');
+            $table->foreign('approved_by')->references('id')->on('users');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -43,6 +55,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+    
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');

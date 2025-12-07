@@ -3,6 +3,7 @@
 namespace App\Models\Administration;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,7 +16,9 @@ class MfaSource extends Model implements  Auditable
     
     protected $fillable = [
 
-        'mfa_source'
+        'mfa_source',
+        'display_name',
+        'system_generate_otp'
     ];
 
 }

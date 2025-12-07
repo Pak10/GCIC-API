@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class User extends Authenticatable implements Auditable
 {
    
-    use HasFactory, Notifiable,AuditableTrait,HasUuids,SoftDeletes;
+    use HasFactory, Notifiable,AuditableTrait,HasUuids,SoftDeletes,HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -26,6 +27,9 @@ class User extends Authenticatable implements Auditable
         'email',
         'phone_number',
         'password',
+        'category',
+        'reviewed_by',
+        'approved_by',
     ];
 
     /**

@@ -9,22 +9,13 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-
-class NextOfKin extends Model implements  Auditable
+class UserStatus extends Model implements  Auditable
 {
-    
     use HasFactory, AuditableTrait, SoftDeletes,HasUuids;
 
     protected $fillable = [
 
-        'user_id',
-        'first_name',
-        'last_name',
-        'other_name',
-        'gender',
-        'date_of_birth',
-        'email',
-        'phone_number',
+        'status',
+        'description'
     ];
-
 }

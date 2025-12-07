@@ -1,12 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthenticationController;
+use App\Http\Controllers\Api\AuthController;
 
 
 /////////AUTHENTICATION ROUTES FOR SANCTUM //////////////////////////////////
 
-Route::post('/login', [AuthenticationController::class, 'login'])->name('web.login');
+Route::post('/login', [AuthController::class, 'login'])->name('web.login');
 
-Route::post('/logout', [AuthenticationController::class, 'logout'])->name('web.logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('web.logout');
 
