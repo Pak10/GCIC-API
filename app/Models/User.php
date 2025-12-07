@@ -73,8 +73,4 @@ class User extends Authenticatable implements Auditable
     {
         return $this->belongsTo(User::class, 'approved_by', 'id');
     }
-
-
-
-
 }

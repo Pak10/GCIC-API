@@ -16,6 +16,7 @@ return new class extends Migration
             $table->enum('category', ['member', 'administrator']);
             $table->boolean('self_registration')->default(true);
             $table->json('data');
+            $table->enum('status', ['pending', 'rejected', 'reviewed', 'approved'])->default('pending');
             $table->softDeletes();
             $table->timestamps();
         });

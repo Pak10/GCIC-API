@@ -150,4 +150,15 @@ class AuthController extends Controller
             ],400);
         }
     }
+
+
+    public function getProfile(Request $request)
+    {
+        $user =  Auth::user();
+
+        $user = User::with(['details', 'roles'])->where('id', $user->id)->first();
+
+        return new UserResource($user);
+
+    }
 }
