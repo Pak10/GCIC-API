@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('user_registrations', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->enum('category', ['member', 'administrator']);
+            $table->uuid('registration_reference');
             $table->boolean('self_registration')->default(true);
             $table->json('data');
             $table->enum('status', ['pending', 'rejected', 'reviewed', 'approved'])->default('pending');

@@ -9,7 +9,7 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class UserRegistration extends Model
+class UserRegistration extends Model implements  Auditable
 {
     use HasFactory, AuditableTrait, SoftDeletes,HasUuids;
 
@@ -17,6 +17,7 @@ class UserRegistration extends Model
 
         'self_registration',
         'category',
+        'registration_reference',
         'data'
     ];
 

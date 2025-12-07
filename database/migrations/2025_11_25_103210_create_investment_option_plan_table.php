@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('investment_option_plan', function (Blueprint $table) {
             $table->id();
+            $table->foreignUuid('investment_plan_id')->constrained();
+            $table->foreignUuid('investment_option_id')->constrained();
+            $table->integer('allocation');
             $table->timestamps();
         });
     }

@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             
+            AccountTypeSeeder::class,
             MfaSourceSeeder::class,
             UserStatusSeeder::class,
             PermissionSeeder::class,

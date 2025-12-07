@@ -136,7 +136,7 @@ class AuthController extends Controller
             
             $request->session()->regenerate();
 
-            $user = User::with(['details', 'roles'])->where('id', $user->id)->first();
+            $user = User::with(['details', 'roles', 'userStatus'])->where('id', $user->id)->first();
 
             return new UserResource($user);
         }
@@ -156,7 +156,7 @@ class AuthController extends Controller
     {
         $user =  Auth::user();
 
-        $user = User::with(['details', 'roles'])->where('id', $user->id)->first();
+        $user = User::with(['details', 'roles', 'userStatus'])->where('id', $user->id)->first();
 
         return new UserResource($user);
 

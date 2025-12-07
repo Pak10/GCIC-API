@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Api\MemberManagement;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Auth;
+use Str;
 
 class RegisterMemberRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class RegisterMemberRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if(Auth::user()->can('register-user')){
+        if(Auth::user()->can('create-member')){
 
             return true;
         }
@@ -35,6 +37,8 @@ class RegisterMemberRequest extends FormRequest
         $this->merge([ 
 
             'created_by' => $user->id,
+            'category' => 'member',
+            'registration_reference' => Str::uuid(),
         
         ]);
     }
@@ -61,17 +65,19 @@ class RegisterMemberRequest extends FormRequest
             'account_number'  => 'required|string|min:3|max:255',
             'mobile_money_number'  => 'required|size:12',
             'mobile_money_name'  => 'required|string|min:3|max:255',
+            'account_type_id' => 'required|exists:account_types,id',
             'next_of_kin' => 'required|array',
             'next_of_kin.*.first_name' => 'required|string|min:3|max:255',
             'next_of_kin.*.last_name' => 'required|string|min:3|max:255',
-            'next_of_kin.*.other_name' => 'nulable|string|min:3|max:255',
+            'next_of_kin.*.other_name' => 'nullable|string|min:3|max:255',
             'next_of_kin.*.relationship' => 'required|string|min:3|max:255',
             'next_of_kin.*.phone_number' => 'required|size:12|starts_with:256',
             'next_of_kin.*.fund_allocation' => 'required|string|min:3|max:255',
             'next_of_kin.*.residence' => 'required|string|min:3|max:255',
             'next_of_kin.*.email' => 'required|email',
             'created_by' => 'required',
-            'category' => 'member',
+            'category' => 'required',
+            'registration_reference' => 'required'
         ];
     }
 }
