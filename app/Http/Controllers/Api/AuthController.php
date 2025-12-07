@@ -5,11 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Administration\MfaSource;
+use App\Models\Transactions\Otp;
 use App\Http\Requests\Api\Auth\LoginRequest;
 use App\Http\Resources\Administration\UserResource;
 use App\Http\Traits\Otp\OtpTrait;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Str;
+use Mail;
+use DB;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {

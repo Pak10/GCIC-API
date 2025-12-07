@@ -11,6 +11,9 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements Auditable
 {
@@ -54,4 +57,24 @@ class User extends Authenticatable implements Auditable
             'password' => 'hashed',
         ];
     }
+
+
+    public function details(): HasOne
+    {
+        return $this->hasOne(UserDetail::class);
+    }
+
+    public function userStatus(): belongsTo
+    {
+        return $this->belongsTo(UserStatus::class);
+    }
+
+    public function approvedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'approved_by', 'id');
+    }
+
+
+
+
 }

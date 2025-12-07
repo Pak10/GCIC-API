@@ -16,9 +16,16 @@ class SendEmailOtp extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+
+    protected $user;
+
+    protected $otp;
+
+    public function __construct($user, $otp)
     {
-        //
+        $this->user = $user;
+
+        $this->otp = $otp;
     }
 
     /**
@@ -27,7 +34,7 @@ class SendEmailOtp extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Send Email Otp',
+            subject: 'GCIC OTP',
         );
     }
 
@@ -37,7 +44,13 @@ class SendEmailOtp extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.send-email-otp',
+            with: [
+                
+               'user' => $this->user,
+               'otp' => $this->otp,
+
+            ],
         );
     }
 
