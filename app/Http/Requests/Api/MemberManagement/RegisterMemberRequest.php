@@ -66,6 +66,7 @@ class RegisterMemberRequest extends FormRequest
             'mobile_money_number'  => 'required|size:12',
             'mobile_money_name'  => 'required|string|min:3|max:255',
             'account_type_id' => 'required|exists:account_types,id',
+            'investment_plan_id' => 'required|exists:investment_plans,id',
             'next_of_kin' => 'required|array',
             'next_of_kin.*.first_name' => 'required|string|min:3|max:255',
             'next_of_kin.*.last_name' => 'required|string|min:3|max:255',

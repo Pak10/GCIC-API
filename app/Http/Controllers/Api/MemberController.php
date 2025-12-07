@@ -185,7 +185,7 @@ class MemberController extends Controller
             }
         }
 
-        $memberRegistration = $this->memberService->updateRegistrationStatus($memberRegistration, $user, $status);
+        $memberRegistration = $this->memberService->updateRegistrationStatus($memberRegistration, $validated['status'], $user);
 
         if($memberRegistration){
 

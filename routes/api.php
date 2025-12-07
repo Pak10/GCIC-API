@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AccountController;
+use App\Http\Controllers\Api\InvestmentController;
 use App\Http\Controllers\Api\MemberController;
 
 Route::post('/auth-verification', [AuthController::class, 'verifyAuthOtp'])->name('verify.auth.otp');
@@ -25,6 +26,10 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
 
         Route::get('/members', [MemberController::class, 'getMembers'])->name('fetch.members');
 
+        ///////////////////// INVESTMENT MANAGEMENT ROUTES  /////////////////////////////////////
+
+        Route::get('/investments/options', [InvestmentController::class, 'getInvestmentOptions'])->name('investment.options');
+        Route::get('/investments/plans', [InvestmentController::class, 'getInvestmentPlans'])->name('investment.plans');
 
     });
 

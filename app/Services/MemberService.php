@@ -9,6 +9,7 @@ use DB;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\UserDetail;
+use App\Models\UserStatus;
 use App\Models\Administration\Account;
 use App\Models\Administration\UserRegistration;
 
@@ -56,7 +57,7 @@ class MemberService {
         }
     }
 
-    public function updateRegistrationStatus($memberRegistration, $status){
+    public function updateRegistrationStatus($memberRegistration, $status, $user){
 
         try{
 
@@ -69,12 +70,33 @@ class MemberService {
 
                 if($status === 'approved'){
 
-                    $userAccount = $this->setupUserAccount();
+                    $memberRegistration->update([
+
+                        'approved_by' => $user->id,
+                    ]);
+
+                    $userAccount = $this->setupMemberAccount($memberRegistration);
 
                     if(!$userAccount){
 
                         return false;
                     }
+                }
+                else if($status === 'reviewed'){
+
+                    $memberRegistration->update([
+                        
+                        'reviewed_by' => $user->id,
+                    ]);
+
+                }
+                else if($status === 'rejected'){
+
+                    $memberRegistration->update([
+                        
+                        'rejected_by' => $user->id,
+                    ]);
+
                 }
             
             DB::commit();
@@ -94,18 +116,49 @@ class MemberService {
     }
 
 
-    public function setupUserAccount($memberRegistration)
+    public function setupMemberAccount($memberRegistration)
     {
 
-        $memberRegistrationData = $memberRegistration->data;
+        try{
 
-        $password =  Str::password(8);
+            DB::beginTransaction();
+            
+                $memberRegistrationData = $memberRegistration->data;
 
-        $memberRegistrationData['password'] = bcrypt($password);
+                $userStatus =  UserStatus::select('id', 'status')->where('status', 'Active')->first();
 
-        $user = User::create($memberRegistrationData);
+                $password =  Str::password(8);
 
-        $user->details()->save($memberRegistrationData); 
+                $memberRegistrationData['password'] = bcrypt($password);
+                $memberRegistrationData['name'] = $memberRegistrationData['first_name'].' '.$memberRegistrationData['last_name'];
+                $memberRegistrationData['user_status_id'] = $userStatus->id;
+
+                $user = User::create($memberRegistrationData);
+
+                $user->details()->create($memberRegistrationData); 
+
+                $account = Account::create([
+
+                    'user_id' => $user->id,
+                    'investment_plan_id' => $memberRegistrationData['investment_plan_id'],
+                    'account_identifier' => Str::uuid(),
+                    'account_type_id' => $memberRegistrationData['account_type_id'],
+                ]);
+
+            DB::commit();
+
+            return $account;
+
+        }
+        catch (\Throwable $e) {
+                
+            Log::error('Error setting up user account:'. $e->getMessage());
+
+            DB::rollBack();
+
+            return false;
+        }
+
 
     }
 

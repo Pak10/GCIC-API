@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignUUid('account_type_id')->constrained();
             $table->foreignUuid('user_id')->nullable()->constrained();
             $table->foreignUuid('investment_plan_id')->constrained();
-            $table->uuid('account_identifier')->unique();
+            $table->uuid('account_identifier');
+            $table->bigIncrements('account_number')->from(1000); 
             $table->decimal('balance', 30,2)->default(0);
             $table->decimal('total_deposit')->default(0);
             $table->decimal('interest_gained', 30,2)->default(0);

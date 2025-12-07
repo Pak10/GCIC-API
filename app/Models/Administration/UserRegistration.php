@@ -18,7 +18,8 @@ class UserRegistration extends Model implements  Auditable
         'self_registration',
         'category',
         'registration_reference',
-        'data'
+        'data',
+        'status',
     ];
 
     protected $casts = [

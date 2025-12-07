@@ -31,6 +31,7 @@ class User extends Authenticatable implements Auditable
         'phone_number',
         'password',
         'category',
+        'user_status_id',
         'reviewed_by',
         'approved_by',
     ];

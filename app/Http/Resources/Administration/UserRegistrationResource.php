@@ -22,6 +22,7 @@ class UserRegistrationResource extends JsonResource
             'self_registration' => $this->self_registration,
             'data' => $this->data,
             'status' => $this->status,
+            'created_at' => $this->created_at,
         ];
     }
 }

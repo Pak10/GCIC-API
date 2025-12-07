@@ -14,14 +14,16 @@ class Account extends Model implements  Auditable
 {
     use HasFactory, AuditableTrait, SoftDeletes,HasUuids;
 
-    protected $fiillable = [
+    protected $fillable = [
 
         'account_type_id',
         'account_number',
+        'account_identifier',
         'user_id',
         'balance',
         'total_deposit',
         'interest_gained',
+        'investment_plan_id',
         'referral_commission_earned',
     ];
 }

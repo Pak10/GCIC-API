@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             
             AccountTypeSeeder::class,
             MfaSourceSeeder::class,
+            InvestmentOptionSeeder::class,
+            InvestmentPlanSeeder::class,
             UserStatusSeeder::class,
             PermissionSeeder::class,
             RoleSeeder::class,
