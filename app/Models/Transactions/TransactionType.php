@@ -13,4 +13,10 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 class TransactionType extends Model implements  Auditable
 {
     use HasFactory, AuditableTrait, SoftDeletes,HasUuids;
+
+    protected $fillable = [
+
+        'booking',
+        'transaction_type'
+    ];
 }

@@ -33,6 +33,17 @@ class PermissionSeeder extends Seeder
             ['name' => 'create-investment-plan', 'guard_name' => 'web'],
             ['name' => 'update-investment-plan', 'guard_name' => 'web'],
             ['name' => 'delete-investment-plan', 'guard_name' => 'web'],
+
+            ['name' => 'record-deposit', 'guard_name' => 'web'],
+            ['name' => 'approve-deposit', 'guard_name' => 'web'],
+            ['name' => 'reject-deposit', 'guard_name' => 'web'],
+
+            ['name' => 'record-withdrawal', 'guard_name' => 'web'],
+            ['name' => 'approve-withdrawal', 'guard_name' => 'web'],
+            ['name' => 'reject-withdrawal', 'guard_name' => 'web'],
+
+            ['name' => 'view-transactions', 'guard_name' => 'web'],
+
         ];    
 
         $permissions =  Permission::insert($seeded_permissions);

@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\InvestmentController;
 use App\Http\Controllers\Api\MemberController;
+use App\Http\Controllers\Api\TransactionController;
 
 Route::post('/auth-verification', [AuthController::class, 'verifyAuthOtp'])->name('verify.auth.otp');
 
@@ -30,6 +31,10 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
 
         Route::get('/investments/options', [InvestmentController::class, 'getInvestmentOptions'])->name('investment.options');
         Route::get('/investments/plans', [InvestmentController::class, 'getInvestmentPlans'])->name('investment.plans');
+
+        ///////////////////// DEPOSIT MANAGEMENT ROUTES  /////////////////////////////////////
+
+        Route::post('/deposits', [TransactionController::class, 'recordDeposit'])->name('deposit');
 
     });
 

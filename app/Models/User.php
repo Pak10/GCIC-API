@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Administration\Account;
 
 class User extends Authenticatable implements Auditable
 {
@@ -63,6 +64,11 @@ class User extends Authenticatable implements Auditable
     public function details(): HasOne
     {
         return $this->hasOne(UserDetail::class);
+    }
+
+    public function accounts(): HasMany
+    {
+        return $this->hasMany(Account::class);
     }
 
     public function userStatus(): belongsTo

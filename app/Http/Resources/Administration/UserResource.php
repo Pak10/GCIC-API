@@ -9,6 +9,7 @@ use App\Http\Resources\Administration\AccountResource;
 use App\Http\Resources\Administration\UserStatusResource;
 use App\Http\Resources\Administration\RoleResource;
 
+
 class UserResource extends JsonResource
 {
     /**
@@ -34,6 +35,7 @@ class UserResource extends JsonResource
                 ];
             }),
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
+            'accounts' => AccountResource::collection($this->whenLoaded('accounts')),
         ];
     }
 }

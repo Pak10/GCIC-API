@@ -18,7 +18,16 @@ class AccountTransaction extends Model implements  Auditable
         'account_id',
         'amount',
         'transaction_type_id',
+        'transaction_reference',
+        'date_of_transaction',
+        'created_by',
+        'data',
+        'approved_by',
+        'rejected_by',
 
+    ];
 
+    protected $casts = [
+        'data' => 'array',
     ];
 }

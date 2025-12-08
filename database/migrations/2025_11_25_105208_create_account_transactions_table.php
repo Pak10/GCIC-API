@@ -15,11 +15,15 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('account_id')->constrained();
             $table->foreignUuid('transaction_type_id')->constrained();
+            $table->uuid('transaction_reference');
             $table->decimal('amount',30,2);
             $table->dateTime('date_of_transaction');
+            $table->string('method_of_payment')->nullable();
+            $table->json('data');
             $table->foreignUuid('approved_by')->nullable()->constrained('users');
+            $table->foreignUuid('rejected_by')->nullable()->constrained('users');
             $table->foreignUuid('created_by')->nullable()->constrained('users');
-            $table->foreignUuid('transaction_status_id')->nullable()->constrained();
+            $table->enum('status', ['pending', 'rejected', 'approved'])->default('pending');
             $table->softDeletes();
             $table->timestamps();
         });
