@@ -233,11 +233,11 @@ class TransactionController extends Controller
         ->where('transaction_types.booking', 'debit')
         ->sum('amount');
 
-        if($account->balance > ($withdrawals + $validated['amount'])){
+        if($account->balance < ($withdrawals + $validated['amount'])){
 
             return response()->json([
 
-                'message' => 'Pending withdrawals exceed the current account balance '
+                'message' => 'Pending withdrawals exceed the current account balance'
             ],400);
         }
 
@@ -258,7 +258,7 @@ class TransactionController extends Controller
 
             return response()->json([
 
-                'message' => 'Error saving the deposit'
+                'message' => 'Error saving the withdrawal'
             ],500);
         }
 

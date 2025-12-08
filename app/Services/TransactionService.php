@@ -212,5 +212,41 @@ class TransactionService {
         }
     }
 
+    public function storeWithdrawal($depositVars, $account, $user)
+    {
+        try{
+
+            DB::beginTransaction();
+
+                $transactionType = TransactionType::where('transaction_type', 'Withdrawal')->first();
+
+                if($transactionType === null){
+
+                    Log::error('Invalid Transaction Type');
+
+                    return false;
+
+                }
+
+                $depositVars['account_id'] = $account->id;
+                $depositVars['transaction_type_id'] = $transactionType->id;
+                $depositVars['data'] = $depositVars;
+
+                $accountTransaction = AccountTransaction::create($depositVars);
+
+            DB::commit();
+
+            return $accountTransaction;
+        }
+        catch (\Throwable $e) {
+                
+            Log::error('Error storing wisthdrawal:'. $e->getMessage());
+
+            DB::rollBack();
+
+            return false;
+        }
+
+    }
 
 }

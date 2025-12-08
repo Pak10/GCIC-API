@@ -40,7 +40,7 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
         Route::get('/transactions', [TransactionController::class, 'getTransactions'])->name('view.transactions');
         Route::put('/transactions/{transaction}/status', [TransactionController::class, 'updateTransactionStatus'])->name('update.transaction');
         Route::post('/deposits', [TransactionController::class, 'recordDeposit'])->name('deposit');
-        Route::post('/withdrawals', [TransactionController::class, 'recordWithdrawals'])->name('withdrawals');
+        Route::post('/withdrawals', [TransactionController::class, 'recordWithdrawal'])->name('withdrawals');
 
     });
 

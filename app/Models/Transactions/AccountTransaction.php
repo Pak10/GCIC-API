@@ -19,6 +19,7 @@ class AccountTransaction extends Model implements  Auditable
         'amount',
         'transaction_type_id',
         'transaction_reference',
+        'method_of_payment',
         'date_of_transaction',
         'created_by',
         'data',
