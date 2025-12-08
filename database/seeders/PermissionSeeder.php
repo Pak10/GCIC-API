@@ -42,7 +42,10 @@ class PermissionSeeder extends Seeder
             ['name' => 'approve-withdrawal', 'guard_name' => 'web'],
             ['name' => 'reject-withdrawal', 'guard_name' => 'web'],
 
+            ['name' => 'view-transaction-types', 'guard_name' => 'web'],
             ['name' => 'view-transactions', 'guard_name' => 'web'],
+            ['name' => 'approve-transaction', 'guard_name' => 'web'],
+            ['name' => 'reject-transaction', 'guard_name' => 'web'],
 
         ];    
 

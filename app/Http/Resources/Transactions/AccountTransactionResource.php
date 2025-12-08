@@ -5,6 +5,7 @@ namespace App\Http\Resources\Transactions;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Administration\AccountResource;
+use App\Http\Resources\Transactions\TransactionTypeResource;
 
 class AccountTransactionResource extends JsonResource
 {
@@ -24,6 +25,8 @@ class AccountTransactionResource extends JsonResource
             'date_of_transaction' => $this->date_of_transaction,
             'method_of_payment' => $this->method_of_payment,
             'details' => $this->data,
+            'status' => $this->status,
+            'transaction_type' => new TransactionTypeResource($this->whenLoaded('type')),
             'created_at' => $this->created_at,
         ];
     }

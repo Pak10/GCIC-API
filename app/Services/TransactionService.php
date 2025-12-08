@@ -50,9 +50,166 @@ class TransactionService {
             return false;
         }
 
+    }
+
+    public function updateTransactionStatus($accountTransaction, $status, $user)
+    {
+
+        try{
+
+            DB::beginTransaction();
+
+                if($status === 'approved'){
+
+                    $accountTransaction->update([
+
+                        'status' => $status,
+                        'approved_by' => $user->id
+                    ]);
+
+                    $transactionType = TransactionType::where('id', $accountTransaction->transaction_type_id)->first();
+
+                    if($transactionType === null){
+
+                        Log::error('Invalid Trasanction type in transaction');
+
+                        DB::rollBack();
+
+                        return false;
+                    }
+
+                    if($transactionType->booking === 'credit'){
+
+                        $creditAccount  =  $this->creditAccount($accountTransaction, $transactionType);
+
+                        if(!$creditAccount){
+
+                            Log::error('Error crediting account');
+
+                            DB::rollBack();
+
+                            return false;
+                        }
+
+                    }
+                    else if($transactionType->booking === 'debit'){
+
+                        $debitAccount  =  $this->debitAccount($accountTransaction, $transactionType);
+
+                        if(!$debitAccount){
+
+                            Log::error('Error debiting account');
+
+                            DB::rollBack();
+
+                            return false;
+                        }
+                    }
+                }
+                else if($status === 'rejected'){
+            
+                    $accountTransaction->update([
+
+                        'status' => $status,
+                        'rejected_by' => $user->id
+                    ]);
+                }
+                else{
+
+                    Log::error('Invalid Trasanction status provided');
+                    return false;
+                }
+
+            DB::commit();
+
+            return $accountTransaction;
+        }
+        catch (\Throwable $e) {
+                
+            Log::error('Error updating transaction:'. $e->getMessage());
+
+            DB::rollBack();
+
+            return false;
+        }
+    }
 
 
+    public function creditAccount($accountTransaction, $transactionType)
+    {
+        try{
 
+            DB::beginTransaction();
+
+                $account =  Account::where('id', $accountTransaction->account_id)->first();
+
+                if($account === null){
+
+                    Log::error('Account not found when updating transaction');
+
+                    return false;
+                }
+
+                if($transactionType->transaction_type === 'Deposit'){
+
+                    $account->update([
+                        
+                        'total_deposit' => $account->total_deposit + $accountTransaction->amount,
+                        'balance' => $account->balance + $accountTransaction->amount,
+                    ]);
+                }
+
+            DB::commit();
+
+            return $account;
+        }
+        catch (\Throwable $e) {
+                
+            Log::error('Error crediting account:'. $e->getMessage());
+
+            DB::rollBack();
+
+            return false;
+        }
+    }
+
+
+    public function debitAccount($accountTransaction, $transactionType)
+    {
+        try{
+
+            DB::beginTransaction();
+
+                $account =  Account::where('id', $accountTransaction->account_id)->first();
+
+                if($account === null){
+
+                    Log::error('Account not found when updating transaction');
+
+                    return false;
+                }
+
+                if($transactionType->transaction_type === 'Withdrawal'){
+
+                    $account->update([
+                        
+                        'total_deposit' => $account->total_deposit - $accountTransaction->amount,
+                        'balance' => $account->balance - $accountTransaction->amount,
+                    ]);
+                }
+
+            DB::commit();
+
+            return $account;
+        }
+        catch (\Throwable $e) {
+                
+            Log::error('Error debiting account:'. $e->getMessage());
+
+            DB::rollBack();
+
+            return false;
+        }
     }
 
 
