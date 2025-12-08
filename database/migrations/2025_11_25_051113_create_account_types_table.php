@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('account_type');
             $table->string('account_prefix');
+            $table->boolean('visibilty')->default(true);
             $table->mediumText('description')->nullable();
             $table->boolean('directly_invests')->default(false);
             $table->softDeletes();

@@ -27,5 +27,13 @@ class AccountTypeSeeder extends Seeder
             'directly_invests' => false,
             'account_prefix' => 'GC_R'
         ]);
+
+        $serviceAccount =  AccountType::create([
+            
+            'account_type' => 'Service',
+            'directly_invests' => true,
+            'account_prefix' => 'GC_S',
+            'visibilty' => false,
+        ]);
     }
 }

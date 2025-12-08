@@ -27,6 +27,8 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
 
         Route::get('/members', [MemberController::class, 'getMembers'])->name('fetch.members');
 
+        Route::get('/accounts/types', [AccountController::class, 'getAccountTypes'])->name('account.types');
+
         ///////////////////// INVESTMENT MANAGEMENT ROUTES  /////////////////////////////////////
 
         Route::get('/investments/options', [InvestmentController::class, 'getInvestmentOptions'])->name('investment.options');
@@ -38,6 +40,7 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
         Route::get('/transactions', [TransactionController::class, 'getTransactions'])->name('view.transactions');
         Route::put('/transactions/{transaction}/status', [TransactionController::class, 'updateTransactionStatus'])->name('update.transaction');
         Route::post('/deposits', [TransactionController::class, 'recordDeposit'])->name('deposit');
+        Route::post('/withdrawals', [TransactionController::class, 'recordWithdrawals'])->name('withdrawals');
 
     });
 

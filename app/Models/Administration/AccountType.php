@@ -17,6 +17,8 @@ class AccountType extends Model implements  Auditable
     protected $fillable = [
 
         'account_type',
+        'account_prefix',
+        'visibility',
         'description',
         'directly_invests',
     ];

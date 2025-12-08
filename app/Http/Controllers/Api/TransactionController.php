@@ -19,6 +19,7 @@ use App\Http\Resources\Transactions\AccountTransactionResource;
 use App\Http\Resources\Transactions\TransactionTypeResource;
 
 use App\Http\Requests\Api\Transactions\RecordDepositRequest;
+use App\Http\Requests\Api\Transactions\RecordWithdrawalRequest;
 use App\Http\Requests\Api\Transactions\UpdateTransactionStatusRequest;
 
 class TransactionController extends Controller
@@ -64,9 +65,6 @@ class TransactionController extends Controller
         }
 
     }
-
-
-
 
     public function getTransactions(Request $request)
     {
@@ -211,5 +209,61 @@ class TransactionController extends Controller
         }
 
     }
+
+    public function recordWithdrawal(RecordWithdrawalRequest $request)
+    {
+        $user = Auth::user();
+
+        $validated = $request->validated();
+
+        $account = Account::where('account_identifier', $validated['account_identifier'])->first();
+
+        if($account === null){
+
+            return response()->json([
+
+                'message' => 'Invalid Account provided'
+            ],400);
+
+        }
+
+        $withdrawals = AccountTransaction::join('transaction_types', 'transaction_types.id', '=', 'account_transactions.transaction_type_id')
+        ->where('account_transactions.account_id', $account->id)
+        ->where('account_transactions.status', 'pending')
+        ->where('transaction_types.booking', 'debit')
+        ->sum('amount');
+
+        if($account->balance > ($withdrawals + $validated['amount'])){
+
+            return response()->json([
+
+                'message' => 'Pending withdrawals exceed the current account balance '
+            ],400);
+        }
+
+        /*
+            Check for withdrawal requests in the system 
+            Idea is check for pending transactions that would debit the account.
+            Prevent users from making requests
+        */
+
+        $withdrawal = $this->transactionService->storeWithdrawal($validated, $account, $user);
+
+        if($withdrawal){
+
+            return new AccountTransactionResource($withdrawal);
+
+        }
+        else{
+
+            return response()->json([
+
+                'message' => 'Error saving the deposit'
+            ],500);
+        }
+
+    }
+
+
 
 }
