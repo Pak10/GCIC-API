@@ -98,8 +98,31 @@ class InvestmentController extends Controller
                 'message' => 'Error Storing investment'
             ],500);
         }
+    }
 
-        
+    public function getInvestments(Request $request)
+    {
+
+        $user = Auth::user();
+
+        if(!($user->can('view-investments'))){
+
+            return response()->json([
+
+                'message' => 'User does not have access to this resource'
+            ],403);
+        }
+
+        $pageSize = 10;
+
+        if(!empty($request->page_size)){
+
+            $pageSize = $request->page_size;
+        }
+
+        $investments = Investment::orderBy('created_at', 'desc')->paginate($pageSize);
+
+        return InvestmentResource::collection($investments);
 
     }
 }

@@ -9,6 +9,8 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\InvestmentManagement\AccountInvestment;
+use App\Models\Administration\Account;
 
 class Investment extends Model implements  Auditable
 {
@@ -21,7 +23,15 @@ class Investment extends Model implements  Auditable
         'transaction_reference',
         'date_of_investment',
         'created_by',
+        'status',
     ];
+
+    public function accountLedger(): BelongsToMany
+    {
+        return $this->belongsToMany(Account::class)
+        ->using(AccountInvestment::class)
+        ->withPivot(['amount_invested']);
+    }
 
 
 }

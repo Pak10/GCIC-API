@@ -8,6 +8,8 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use App\Models\InvestmentManagement\Investment;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 class AccountType extends Model implements  Auditable
@@ -22,4 +24,11 @@ class AccountType extends Model implements  Auditable
         'description',
         'directly_invests',
     ];
+
+    public function investments(): BelongsToMany
+    {
+        return $this->belongsToMany(Investment::class, 'account_type_investment', 'account_type_id', 'investment_id')->withPivot('amount_invested');
+    }
+
+
 }
