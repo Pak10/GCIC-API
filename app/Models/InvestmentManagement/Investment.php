@@ -9,23 +9,19 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\Models\InvestmentManagement\InvestmentOption;
 
-class InvestmentPlan extends Model implements  Auditable
+class Investment extends Model implements  Auditable
 {
     use HasFactory, AuditableTrait, SoftDeletes,HasUuids;
 
-    protected $fillable  = [
+    protected $fillable = [
 
-        'investment_plan',
-        'has_fixed_interest',
-        'fixed_interest',
-
+        'investment_option_id',
+        'amount',
+        'transaction_reference',
+        'date_of_investment',
+        'created_by',
     ];
 
 
-    public function options(): BelongsToMany
-    {
-        return $this->belongsToMany(InvestmentOption::class, 'investment_option_plan', 'investment_plan_id', 'investment_option_id')->withPivot('allocation');
-    }
 }

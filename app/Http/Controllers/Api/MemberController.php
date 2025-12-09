@@ -223,7 +223,7 @@ class MemberController extends Controller
             $pageSize = $request->page_size;
         }
 
-        $members = User::with(['accounts', 'userStatus'])->where('category', 'member')->paginate($pageSize);
+        $members = User::with(['accounts.plan', 'userStatus'])->where('category', 'member')->paginate($pageSize);
 
         return UserResource::collection($members);
 

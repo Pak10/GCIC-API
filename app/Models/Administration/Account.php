@@ -8,7 +8,9 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\InvestmentManagement\InvestmentPlan;
+use App\Models\Administration\AccountType;
 
 class Account extends Model implements  Auditable
 {
@@ -26,4 +28,14 @@ class Account extends Model implements  Auditable
         'investment_plan_id',
         'referral_commission_earned',
     ];
+
+    public function plan(): BelongsTo
+    {
+        return $this->belongsTo(InvestmentPlan::class, 'investment_plan_id');
+    }
+
+    public function type(): BelongsTo
+    {
+        return $this->belongsTo(AccountType::class, 'account_type_id');
+    }
 }

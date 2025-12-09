@@ -27,8 +27,5 @@ class AccountController extends Controller
 
         return AccountTypeResource::collection($accountTypes);
 
-
-
-
     }
 }

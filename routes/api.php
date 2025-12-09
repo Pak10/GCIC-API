@@ -33,6 +33,7 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
 
         Route::get('/investments/options', [InvestmentController::class, 'getInvestmentOptions'])->name('investment.options');
         Route::get('/investments/plans', [InvestmentController::class, 'getInvestmentPlans'])->name('investment.plans');
+        Route::post('/investments', [InvestmentController::class, 'recordInvestment'])->name('investment.store');
 
         ///////////////////// TRANSACTION MANAGEMENT ROUTES  /////////////////////////////////////
 

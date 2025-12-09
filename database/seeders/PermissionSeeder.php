@@ -47,6 +47,12 @@ class PermissionSeeder extends Seeder
             ['name' => 'approve-transaction', 'guard_name' => 'web'],
             ['name' => 'reject-transaction', 'guard_name' => 'web'],
 
+            ['name' => 'create-investment', 'guard_name' => 'web'],
+            ['name' => 'view-investments', 'guard_name' => 'web'],
+            ['name' => 'cancel-investment', 'guard_name' => 'web'],
+            ['name' => 'close-investment', 'guard_name' => 'web'],
+
+
         ];    
 
         $permissions =  Permission::insert($seeded_permissions);
