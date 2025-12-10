@@ -22,6 +22,13 @@ class Investment extends Model implements  Auditable
         'amount',
         'transaction_reference',
         'date_of_investment',
+        'date_of_recovery',
+        'expected_date_of_recovery',
+        'cancelled_by',
+        'closed_by',
+        'settled_by',
+        'profit',
+        'share_profit',
         'created_by',
         'status',
     ];

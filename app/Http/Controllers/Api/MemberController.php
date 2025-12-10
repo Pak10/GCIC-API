@@ -85,6 +85,35 @@ class MemberController extends Controller
     }
 
 
+    public function getMemberRegistration(Request $request, $registrationReference)
+    {
+
+        $user = Auth::user();
+
+        if(!($user->can('view-member-registrations'))){
+
+            return response()->json([
+
+                'message' => 'User does not have access to this resource'
+            ],403);
+        }
+
+        $memberRegistration = UserRegistration::where('category', 'member')->where('registration_reference', $registrationReference)
+        ->first();
+
+        if($memberRegistration === null){
+
+            return response()->json([
+
+                'message' => 'Invalid member registration'
+            ],400); 
+        }
+
+        return  new UserRegistrationResource($memberRegistration);
+
+    }
+
+
     public function updateMemberRegistrationStatus(UpdateMemberRegistrationStatusRequest $request, $memberRegistrationRefrence)
     {
 

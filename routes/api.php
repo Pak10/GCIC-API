@@ -23,6 +23,7 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
 
         Route::post('/members', [MemberController::class, 'registerMember'])->name('register.members');
         Route::get('/members/registrations', [MemberController::class, 'getMemberRegistrations'])->name('member.registrations');
+        Route::get('/members/registrations/{registration}', [MemberController::class, 'getMemberRegistration'])->name('member.registration');
         Route::put('/members/registrations/{registration}/status', [MemberController::class, 'updateMemberRegistrationStatus'])->name('update.registration.status');
 
         Route::get('/members', [MemberController::class, 'getMembers'])->name('fetch.members');
@@ -35,6 +36,7 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
         Route::get('/investments/plans', [InvestmentController::class, 'getInvestmentPlans'])->name('investment.plans');
         Route::post('/investments', [InvestmentController::class, 'recordInvestment'])->name('investment.store');
         Route::get('/investments', [InvestmentController::class, 'getInvestments'])->name('investments');
+        Route::put('/investments/{investment}/status', [InvestmentController::class, 'updateInvestmentStatus'])->name('investment.status');
 
         ///////////////////// TRANSACTION MANAGEMENT ROUTES  /////////////////////////////////////
 

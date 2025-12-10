@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('investment_plan');
             $table->boolean('has_fixed_interest')->default(false);
             $table->decimal('fixed_interest',5,2)->nullable();
+            $table->boolean('share_profit')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

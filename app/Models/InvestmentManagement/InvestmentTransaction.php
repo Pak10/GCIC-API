@@ -12,4 +12,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 class InvestmentTransaction extends Model implements  Auditable
 {
     use HasFactory, AuditableTrait, SoftDeletes,HasUuids;
+
+    
 }

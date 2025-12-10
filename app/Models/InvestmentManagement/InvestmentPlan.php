@@ -20,6 +20,7 @@ class InvestmentPlan extends Model implements  Auditable
         'investment_plan',
         'has_fixed_interest',
         'fixed_interest',
+        'share_option',
 
     ];
 
