@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\InvestmentController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\TransactionController;
 
@@ -45,6 +46,11 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
         Route::put('/transactions/{transaction}/status', [TransactionController::class, 'updateTransactionStatus'])->name('update.transaction');
         Route::post('/deposits', [TransactionController::class, 'recordDeposit'])->name('deposit');
         Route::post('/withdrawals', [TransactionController::class, 'recordWithdrawal'])->name('withdrawals');
+
+        //////////////////// USER MANAGEMENT ROUTES ///////////////////////////////////////////////
+
+        Route::get('/users', [UserController::class, 'getUsers'])->name('fetch.users');
+        Route::post('/users', [UserController::class, 'registerUser'])->name('store.user');
 
     });
 

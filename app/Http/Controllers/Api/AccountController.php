@@ -28,4 +28,12 @@ class AccountController extends Controller
         return AccountTypeResource::collection($accountTypes);
 
     }
+
+    public function getAccount(Request $request, $accountIdentifier)
+    {
+        $user = Auth::user();
+
+        
+
+    }
 }
