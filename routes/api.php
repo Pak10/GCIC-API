@@ -50,6 +50,7 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
         //////////////////// USER MANAGEMENT ROUTES ///////////////////////////////////////////////
 
         Route::get('/users', [UserController::class, 'getUsers'])->name('fetch.users');
+        Route::get('/users/{user}', [UserController::class, 'getUser'])->name('fetch.user');
         Route::post('/users', [UserController::class, 'registerUser'])->name('store.user');
 
     });

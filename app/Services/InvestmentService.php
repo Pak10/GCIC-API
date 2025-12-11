@@ -98,8 +98,6 @@ class InvestmentService {
                         
                     }
 
-
-            
                 DB::commit();
 
             return $investment;

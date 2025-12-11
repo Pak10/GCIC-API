@@ -43,6 +43,8 @@ class UserService {
 
                 $user->details()->create($userVars); 
 
+                $user->assignRole($userVars['role']);
+
                 // Send email
 
             DB::commit();

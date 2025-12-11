@@ -52,17 +52,17 @@ class UserController extends Controller
     }
 
 
-    public function getUsers()
+    public function getUsers(Request $request)
     {
         $user =  Auth::user();
  
-        // if(!($user->can('view-users'))){
+        if(!($user->can('view-users'))){
 
-        //     return response()->json([
+            return response()->json([
 
-        //         'message' => 'User does not have access to this resource'
-        //     ],403);
-        // }
+                'message' => 'User does not have access to this resource'
+            ],403);
+        }
 
         $users = User::with('roles', 'userStatus')->where('category', 'administrator')->orderBy('created_at', 'desc');
 
@@ -77,7 +77,33 @@ class UserController extends Controller
 
         return BasicUserResource::collection($users);
 
-        
+    }
+
+
+    public function getUser(Request $request, $userId)
+    {
+        $user =  Auth::user();
+ 
+        if(!($user->can('view-users'))){
+
+            return response()->json([
+
+                'message' => 'User does not have access to this resource'
+            ],403);
+        }
+
+        $user = User::with('roles', 'userStatus', 'accounts', 'details')->where('category', 'administrator')
+        ->where('id', $userId)->first();
+    
+        if($user === null){
+
+            return response()->json([
+
+                'message' => 'Invalid user'
+            ], 400);
+        }
+
+        return new UserResource($user);
 
     }
 }
