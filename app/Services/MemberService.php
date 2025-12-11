@@ -72,7 +72,7 @@ class MemberService {
 
                     $memberRegistration->update([
 
-                        'approved_by' => $user->id,
+                        'data->approved_by' => $user->id,
                     ]);
 
                     $userAccount = $this->setupMemberAccount($memberRegistration);
@@ -86,7 +86,7 @@ class MemberService {
 
                     $memberRegistration->update([
                         
-                        'reviewed_by' => $user->id,
+                        'data->reviewed_by' => $user->id,
                     ]);
 
                 }
@@ -94,7 +94,7 @@ class MemberService {
 
                     $memberRegistration->update([
                         
-                        'rejected_by' => $user->id,
+                        'data->rejected_by' => $user->id,
                     ]);
 
                 }

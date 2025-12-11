@@ -19,6 +19,8 @@ class UserRegistration extends Model implements  Auditable
         'category',
         'registration_reference',
         'data',
+        'data->approved_by',
+        'data->reviewed_by',
         'status',
     ];
 
