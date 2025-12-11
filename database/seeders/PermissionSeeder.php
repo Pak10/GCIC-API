@@ -51,6 +51,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'view-investments', 'guard_name' => 'web'],
             ['name' => 'cancel-investment', 'guard_name' => 'web'],
             ['name' => 'close-investment', 'guard_name' => 'web'],
+    
 
             ['name' => 'create-user', 'guard_name' => 'web'],
             ['name' => 'view-users', 'guard_name' => 'web'],
@@ -61,6 +62,10 @@ class PermissionSeeder extends Seeder
             ['name' => 'view-roles', 'guard_name' => 'web'],
             ['name' => 'update-role', 'guard_name' => 'web'],           
             ['name' => 'delete-role', 'guard_name' => 'web'],
+
+            ['name' => 'view-accounts', 'guard_name' => 'web'],
+            ['name' => 'update-account', 'guard_name' => 'web'],
+
 
 
         ];    

@@ -12,6 +12,7 @@ use Str;
 use DB;
 
 use App\Models\Administration\AccountType;
+use App\Models\Administration\Account;
 
 use App\Http\Resources\Administration\AccountTypeResource;
 use App\Http\Resources\Administration\AccountResource;
@@ -33,7 +34,31 @@ class AccountController extends Controller
     {
         $user = Auth::user();
 
-        
+    }
+
+    public function getDiscretionaryAccounts(Request $request)
+    {
+        $user = Auth::user();
+
+        if(!($user->can('view-accounts'))){
+
+            return response()->json([
+
+                'message' => 'User does not have access to this resource'
+            ],403);
+        }
+
+        $accounts  = Account::withWhereHas(
+
+            'type', function ($query) {
+                $query->where('discretionary_account', true);
+            },
+        )
+        ->get();
+
+        return AccountResource::collection($accounts);
 
     }
+
+
 }
