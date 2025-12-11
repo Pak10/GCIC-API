@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\InvestmentController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\TransactionController;
+use App\Http\Controllers\Api\AuthorisationController;
 
 Route::post('/auth-verification', [AuthController::class, 'verifyAuthOtp'])->name('verify.auth.otp');
 
@@ -54,6 +55,11 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
         Route::get('/users', [UserController::class, 'getUsers'])->name('fetch.users');
         Route::get('/users/{user}', [UserController::class, 'getUser'])->name('fetch.user');
         Route::post('/users', [UserController::class, 'registerUser'])->name('store.user');
+
+
+        /////////////////// AUTHORISATION ROUTES  ///////////////////////////////////////////////
+
+        Route::get('/roles', [AuthorisationController::class, 'getRoles'])->name('fetch.roles');
 
     });
 
