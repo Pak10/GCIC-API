@@ -12,9 +12,12 @@ class SettleInvestment implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct()
+    protected $investment;
+
+
+    public function __construct($investment)
     {
-        //
+        $this->investment =  $investment;
     }
 
     /**

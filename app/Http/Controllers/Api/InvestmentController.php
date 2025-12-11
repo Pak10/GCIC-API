@@ -8,9 +8,11 @@ use App\Models\InvestmentManagement\InvestmentOption;
 use App\Models\InvestmentManagement\InvestmentPlan;
 use App\Models\InvestmentManagement\Investment;
 use App\Models\Administration\Account;
+use App\Models\Administration\AccountType;
 use App\Http\Resources\InvestmentManagement\InvestmentOptionResource;
 use App\Http\Resources\InvestmentManagement\InvestmentPlanResource;
 use App\Http\Resources\InvestmentManagement\InvestmentResource;
+use App\Http\Resources\Administration\AccountTypeResource;
 use App\Http\Requests\Api\Investments\RecordInvestmentRequest;
 use Auth;
 use App\Services\InvestmentService;
@@ -254,5 +256,38 @@ class InvestmentController extends Controller
 
         }
 
+    }
+
+
+    public function getAccountTypeInvestment(Request $request, $investmentReference)
+    {
+        $user =  Auth::user();
+
+        if(!($user->can('view-investments'))){
+
+            return response()->json([
+
+                'message' => 'User does not have access to this resource'
+            ],403);
+        }
+
+        $investment =  Investment::where('transaction_reference', $investmentReference)->first();
+
+        if($investment === null){
+
+            return response()->json([
+
+                'message' => 'Invalid Investment provided'
+
+            ],400);
+        }
+
+        $accountTypes = AccountType::with([
+            'investments' => function ($query) use($investment) {
+                $query->where('investment_id', $investment->id);
+        }]);
+
+        return AccountTypeResource::collection($accountTypes);
+   
     }
 }

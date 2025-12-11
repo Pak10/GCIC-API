@@ -16,6 +16,7 @@ use App\Services\MemberService;
 
 use App\Http\Resources\Administration\UserRegistrationResource;
 use App\Http\Resources\Administration\UserResource;
+use App\Http\Resources\Administration\BasicUserResource;
 
 use App\Http\Requests\Api\MemberManagement\RegisterMemberRequest;
 use App\Http\Requests\Api\MemberManagement\UpdateMemberRegistrationStatusRequest;
@@ -255,6 +256,36 @@ class MemberController extends Controller
         $members = User::with(['accounts.plan', 'userStatus'])->where('category', 'member')->paginate($pageSize);
 
         return UserResource::collection($members);
+
+    }
+
+    public function searchMembers(Request $request)
+    {
+        $user  = Auth::user();
+
+        if(!($user->can('view-members'))){
+
+            return response()->json([
+
+                'message' => 'User does not have access to this resource'
+            ],403);
+        }
+
+        $members = User::with(['accounts.type'])
+        ->where('category', 'member');
+
+        if(!empty($request->search)){
+
+            $search = $request->search;
+
+            $members = $members->where('name','like','%'.$search.'%')
+            ->orWhere('users.email','like','%'.$search.'%');
+
+        }
+
+        $members = $members->get();
+
+        return BasicUserResource::collection($members);
 
     }
 }

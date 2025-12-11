@@ -20,7 +20,7 @@ return new class extends Migration
             $table->uuid('transaction_reference');
             $table->decimal('amount',30,2);
             $table->foreignUuid('created_by')->constrained('users');
-            $table->enum('status', ['processing','cancelled','open', 'closed', 'settled'])->default('processing');
+            $table->enum('status', ['processing','cancelled','open', 'closed','settling', 'settled'])->default('processing');
             $table->decimal('amount_returned',30,2)->nullable();
             $table->decimal('profit',30,2)->nullable();
             $table->decimal('share_profit',5,2)->nullable();

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Administration\UserStatusResource;
 use App\Http\Resources\Administration\RoleResource;
+use App\Http\Resources\Administration\AccountResource;
 
 class BasicUserResource extends JsonResource
 {
@@ -26,6 +27,7 @@ class BasicUserResource extends JsonResource
             'account_approved' => !empty($this->approved_by) ? true : false,
             'status' => new UserStatusResource($this->whenLoaded('userStatus')),
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
+            'accounts' => AccountResource::collection($this->whenLoaded('accounts')),
         ];
     }
 }

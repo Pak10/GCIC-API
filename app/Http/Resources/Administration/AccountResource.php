@@ -5,6 +5,7 @@ namespace App\Http\Resources\Administration;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\InvestmentManagement\InvestmentPlanResource;
+use App\Http\Resources\Administration\AccountTypeResource;
 
 class AccountResource extends JsonResource
 {
@@ -17,13 +18,14 @@ class AccountResource extends JsonResource
     {
         return [
 
+            'account_number' => $this->account_number,
             'account_identifier' => $this->account_identifier,
             'balance' => $this->balance,
             'total_deposit' => $this->total_deposit,
             'interest_gained' => $this->interest_gained,
             'referral_commission_earned' => $this->referral_commission_earned,
             'investment_plan' => new InvestmentPlanResource($this->whenLoaded('plan')),
-
+            'account_type' => new AccountTypeResource($this->whenLoaded('type')),
         ];
     }
 }

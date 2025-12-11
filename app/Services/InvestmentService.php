@@ -12,7 +12,7 @@ use App\Models\InvestmentManagement\InvestmentPlan;
 use App\Models\InvestmentManagement\Investment;
 use App\Models\InvestmentManagement\AccountInvestment;
 use App\Jobs\Investments\RecordAccountInvestments;
-use App\Jobs\Investments\SettleInvestments;
+use App\Jobs\Investments\SettleInvestment;
 
 class InvestmentService {
 
@@ -45,7 +45,7 @@ class InvestmentService {
 
                 $investment = Investment::create($investmentVars);
 
-                $recordAccountInvestments = RecordAccountInvestments::dispatch($investment);
+                $recordAccountInvestments = SettleInvestment::dispatch($investment);
 
             DB::commit();
 
@@ -93,6 +93,12 @@ class InvestmentService {
 
                     }
                     else if($investmentVars['status'] === 'settled'){
+
+                        $investment->update([
+
+                            'status' => 'settling'
+    
+                        ]);
 
                         $settleInvestment = RecordAccountInvestments::dispatch($investment);
                         
