@@ -15,6 +15,7 @@ use App\Services\UserService;
 
 use App\Http\Resources\Administration\UserRegistrationResource;
 use App\Http\Resources\Administration\UserResource;
+use App\Http\Resources\Administration\BasicUserResource;
 
 use App\Http\Requests\Api\UserManagement\RegisterUserRequest;
 
@@ -54,6 +55,27 @@ class UserController extends Controller
     public function getUsers()
     {
         $user =  Auth::user();
+ 
+        // if(!($user->can('view-users'))){
+
+        //     return response()->json([
+
+        //         'message' => 'User does not have access to this resource'
+        //     ],403);
+        // }
+
+        $users = User::with('roles', 'userStatus')->where('category', 'administrator')->orderBy('created_at', 'desc');
+
+        $pageSize = 10;
+
+        if(!empty($request->page_size)){
+
+            $pageSize = $request->page_size;
+        }
+
+        $users = $users->paginate($pageSize);
+
+        return BasicUserResource::collection($users);
 
         
 

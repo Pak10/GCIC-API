@@ -4,6 +4,8 @@ namespace App\Http\Resources\Administration;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Administration\UserStatusResource;
+use App\Http\Resources\Administration\RoleResource;
 
 class BasicUserResource extends JsonResource
 {
@@ -22,6 +24,8 @@ class BasicUserResource extends JsonResource
             'phone_number' => $this->phone_number,
             'category' => $this->category,
             'account_approved' => !empty($this->approved_by) ? true : false,
+            'status' => new UserStatusResource($this->whenLoaded('userStatus')),
+            'roles' => RoleResource::collection($this->whenLoaded('roles')),
         ];
     }
 }

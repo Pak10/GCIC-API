@@ -20,7 +20,7 @@ class RegisterUserRequest extends FormRequest
 
         else{
 
-            return true;
+            return false;
         }
     }
 
