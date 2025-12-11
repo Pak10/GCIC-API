@@ -87,7 +87,7 @@ class InvestmentService {
                             'status' => $investmentVars['status'],
                             'amount_returned' => $investmentVars['amount_returned'],
                             'date_of_recovery' => $investmentVars['date_of_recovery'],
-                            'profit' => ($investment->amount - $investmentVars['amount_returned']),
+                            'profit' => ($investmentVars['amount_returned'] - $investment->amount),
                             'closed_by' => $user->id
                         ]);
 

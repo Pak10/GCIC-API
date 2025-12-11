@@ -156,7 +156,7 @@ class AuthController extends Controller
     {
         $user =  Auth::user();
 
-        $user = User::with(['details', 'roles', 'userStatus'])->where('id', $user->id)->first();
+        $user = User::with(['details', 'roles', 'userStatus', 'accounts'])->where('id', $user->id)->first();
 
         return new UserResource($user);
 

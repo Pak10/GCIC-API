@@ -35,6 +35,7 @@ class User extends Authenticatable implements Auditable
         'user_status_id',
         'reviewed_by',
         'approved_by',
+        'invited_by',
     ];
 
     /**

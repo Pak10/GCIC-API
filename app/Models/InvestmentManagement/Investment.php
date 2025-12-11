@@ -29,6 +29,7 @@ class Investment extends Model implements  Auditable
         'settled_by',
         'profit',
         'share_profit',
+        'amount_returned',
         'created_by',
         'status',
     ];
