@@ -45,7 +45,7 @@ class InvestmentService {
 
                 $investment = Investment::create($investmentVars);
 
-                $recordAccountInvestments = SettleInvestment::dispatch($investment);
+                $recordAccountInvestments = RecordAccountInvestments::dispatch($investment);
 
             DB::commit();
 
@@ -100,7 +100,7 @@ class InvestmentService {
     
                         ]);
 
-                        $settleInvestment = RecordAccountInvestments::dispatch($investment);
+                        $settleInvestment = SettleInvestment::dispatch($investment);
                         
                     }
 

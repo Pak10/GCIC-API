@@ -283,9 +283,9 @@ class InvestmentController extends Controller
         }
 
         $accountTypes = AccountType::with([
-            'investments' => function ($query) use($investment) {
+            'investment' => function ($query) use($investment) {
                 $query->where('investment_id', $investment->id);
-        }]);
+        }])->get();
 
         return AccountTypeResource::collection($accountTypes);
    

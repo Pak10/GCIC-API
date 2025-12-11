@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Models\InvestmentManagement\Investment;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 
 class AccountType extends Model implements  Auditable
@@ -29,6 +30,12 @@ class AccountType extends Model implements  Auditable
     {
         return $this->belongsToMany(Investment::class, 'account_type_investment', 'account_type_id', 'investment_id')->withPivot('amount_invested');
     }
+
+    public function investment(): BelongsToMany
+    {
+        return $this->belongsToMany(Investment::class, 'account_type_investment', 'account_type_id', 'investment_id')->withPivot('amount_invested');
+    }
+
 
 
 }

@@ -20,6 +20,10 @@ class AccountTypeResource extends JsonResource
             'account_type' => $this->account_type,
             'account_prefix' => $this->account_prefix,
             'description' => $this->description,
+            'amount_invested' => $this->whenLoaded('investment', function () {
+
+                return $this->investments[0]->pivot->amount_invested;
+            }),
         ];
     }
 }
