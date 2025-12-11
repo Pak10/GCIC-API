@@ -22,6 +22,7 @@ class AccountType extends Model implements  Auditable
         'account_type',
         'account_prefix',
         'visibility',
+        'discretionary_account',
         'description',
         'directly_invests',
     ];

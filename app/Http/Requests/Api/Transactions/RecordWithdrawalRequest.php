@@ -53,7 +53,7 @@ class RecordWithdrawalRequest extends FormRequest
             'account_number' => 'required_if:method_of_payment,bank_transfer',
             'account_identifier' => 'required|exists:accounts,account_identifier',
             'mobile_money_name' => 'required_if:method_of_payment,mobile_money',
-            'phone_number' => 'required_if:method_of_payment,mobile_money|starts_with:256|size:12',
+            'phone_number' => 'required_if:method_of_payment,mobile_money|starts_with:+256|size:13',
             'amount' => 'required|int',
             'date_of_transaction' => 'required|date',
             'created_by' => 'required',

@@ -128,6 +128,33 @@ class InvestmentController extends Controller
 
     }
 
+    public function getInvestment(Request $request, $investmentReference)
+    {
+        $user = Auth::user();
+
+        if(!($user->can('view-investments'))){
+
+            return response()->json([
+
+                'message' => 'User does not have access to this resource'
+            ],403);
+        }
+
+        $investment = Investment::where('transaction_reference', $investmentReference)->first();
+
+        if($investment === null){
+
+            return response()->json([
+
+                'message' => 'Invalid investment reference'
+            ],400);
+
+        }
+
+        return new InvestmentResource($investment);
+
+    }
+
 
     public function updateInvestmentStatus(UpdateInvestmentStatusRequest $request, $investmentReference)
     {

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->boolean('visibilty')->default(true);
             $table->mediumText('description')->nullable();
             $table->boolean('directly_invests')->default(false);
+            $table->boolean('discretionary_account')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });
