@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\AuthorisationController;
 
 Route::post('/auth-verification', [AuthController::class, 'verifyAuthOtp'])->name('verify.auth.otp');
 
+Route::post('/sign-up', [AuthController::class, 'signUp'])->name('sign.up');
+
 /////////////////////////AUTHENTICATED / PROTECTED  ROUTES //////////////////////////////
 Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
 
@@ -62,6 +64,9 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
         /////////////////// AUTHORISATION ROUTES  ///////////////////////////////////////////////
 
         Route::get('/roles', [AuthorisationController::class, 'getRoles'])->name('fetch.roles');
+        Route::post('/roles', [AuthorisationController::class, 'storeRole'])->name('store.role');
+        Route::get('/permissions', [AuthorisationController::class, 'getPermissions'])->name('fetch.permissions');
+        Route::put('/roles/{role}/permissions', [AuthorisationController::class, 'attachPermissions'])->name('attach.permissions');
 
     });
 

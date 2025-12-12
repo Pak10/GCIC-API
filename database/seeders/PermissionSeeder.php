@@ -62,6 +62,8 @@ class PermissionSeeder extends Seeder
             ['name' => 'view-roles', 'guard_name' => 'web'],
             ['name' => 'update-role', 'guard_name' => 'web'],           
             ['name' => 'delete-role', 'guard_name' => 'web'],
+            ['name' => 'view-permissions', 'guard_name' => 'web'],
+            ['name' => 'attach-permissions', 'guard_name' => 'web'],
 
             ['name' => 'view-accounts', 'guard_name' => 'web'],
             ['name' => 'update-account', 'guard_name' => 'web'],

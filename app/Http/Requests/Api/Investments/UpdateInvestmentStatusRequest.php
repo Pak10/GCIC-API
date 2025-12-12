@@ -43,11 +43,12 @@ class UpdateInvestmentStatusRequest extends FormRequest
         return [
             
             'status' => 'required|in:closed,cancelled,settled',
-            'date_of_recovery' => 'required_if:status,closed|date',
-            'amount_returned' => 'required_if:status,closed|int|gt:0',
-            'discretionary_accounts' => 'nullable|array',
+            'date_of_recovery' => 'required_if:status,closed|nullable|date',
+            'amount_returned' => 'required_if:status,closed|nullable|int|gt:0',
+            'discretionary_accounts' => 'required_if:status,settled|array',
             'discretionary_accounts.*.account_identifer' => 'required|exists:accounts,account_identifier',
-            'discretionary_accounts.*.amount_returned' => 'required|int',
+            'discretionary_accounts.*.amount_returned' => 'required|int|gt:0',
+            'interest' => 'required_if:status,settled|nullable',
         ];
     }
 }
