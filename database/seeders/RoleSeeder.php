@@ -32,5 +32,7 @@ class RoleSeeder extends Seeder
 
         $super_admin->syncPermissions($permissions);
 
+        $member->syncPermissions(['self-registration']);
+
     }
 }

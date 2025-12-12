@@ -68,6 +68,8 @@ class PermissionSeeder extends Seeder
             ['name' => 'view-accounts', 'guard_name' => 'web'],
             ['name' => 'update-account', 'guard_name' => 'web'],
 
+            ['name' => 'self-registration', 'guard_name' => 'web'],
+
 
 
         ];    

@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\UserStatus;
 use App\Models\Administration\MfaSource;
 use App\Models\Transactions\Otp;
 use App\Http\Requests\Api\Auth\LoginRequest;
+use App\Http\Requests\Api\Auth\SignUpRequest;
 use App\Http\Resources\Administration\UserResource;
 use App\Http\Traits\Otp\OtpTrait;
 use Illuminate\Support\Facades\Auth;
@@ -159,6 +161,30 @@ class AuthController extends Controller
         $user = User::with(['details', 'roles', 'userStatus', 'accounts'])->where('id', $user->id)->first();
 
         return new UserResource($user);
+
+    }
+
+
+    public function signUp(SignUpRequest $request)
+    {
+
+        $validated = $request->validated();
+
+        $status =  UserStatus::select('id', 'status')->where('status', 'Active')->first();
+
+        $validated['user_status_id'] = $status->id;
+
+        $user =  User::create($validated);
+
+        $user->assignRole('Member');
+
+
+
+        return response()->json([
+
+            'message' => 'Account created successfully.'
+        ]);
+
 
     }
 }
