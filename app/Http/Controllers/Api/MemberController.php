@@ -19,6 +19,7 @@ use App\Http\Resources\Administration\UserResource;
 use App\Http\Resources\Administration\BasicUserResource;
 
 use App\Http\Requests\Api\MemberManagement\RegisterMemberRequest;
+use App\Http\Requests\Api\MemberManagement\CompleteMemberRegistrationRequest;
 use App\Http\Requests\Api\MemberManagement\UpdateMemberRegistrationStatusRequest;
 
 class MemberController extends Controller
@@ -288,7 +289,7 @@ class MemberController extends Controller
         return BasicUserResource::collection($members);
     }
 
-    public function completeregistration(CompleteRegistrationRequest $request)
+    public function completeregistration(CompleteMemberRegistrationRequest $request)
     {
         $user  = Auth::user();
 
