@@ -286,6 +286,30 @@ class MemberController extends Controller
         $members = $members->get();
 
         return BasicUserResource::collection($members);
+    }
+
+    public function completeregistration(CompleteRegistrationRequest $request)
+    {
+        $user  = Auth::user();
+
+        $validated = $request->validated();
+
+        $userRegistration = $this->memberService->registerMember($validated, $user, true);
+
+        if($userRegistration){
+
+            return new UserRegistrationResource($userRegistration);
+
+        }
+        else{
+
+            return response()->json([
+
+                'message' => 'Error saving member registration'
+
+            ],500);
+        }
+
 
     }
 }

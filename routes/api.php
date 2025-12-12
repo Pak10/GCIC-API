@@ -25,6 +25,8 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
 
         ///////////////////Register Member ///////////////////////////////////////////////////
 
+        Route::post('/registration', [MemberController::class, 'completeRegistration'])->name('complete.registration');
+
         Route::post('/members', [MemberController::class, 'registerMember'])->name('register.members');
         Route::get('/members/registrations', [MemberController::class, 'getMemberRegistrations'])->name('member.registrations');
         Route::get('/members/registrations/{registration}', [MemberController::class, 'getMemberRegistration'])->name('member.registration');

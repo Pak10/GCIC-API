@@ -19,7 +19,7 @@ return new class extends Migration
             $table->uuid('account_identifier');
             $table->bigIncrements('account_number')->from(1000); 
             $table->decimal('balance', 30,2)->default(0);
-            $table->decimal('total_deposit')->default(0);
+            $table->decimal('total_deposit',30,2)->default(0);
             $table->decimal('interest_gained', 30,2)->default(0);
             $table->decimal('referral_commission_earned', 30,2)->default(0);
             $table->softDeletes();
