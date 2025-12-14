@@ -260,6 +260,34 @@ class MemberController extends Controller
 
     }
 
+    public function getMember(Request $request, $userId)
+    {
+        $user  = Auth::user();
+
+        if(!($user->can('view-members'))){
+
+            return response()->json([
+
+                'message' => 'User does not have access to this resource'
+            ],403);
+        }
+
+        $member = User::with(['accounts.plan', 'userStatus', 'details'])
+        ->where('id', $userId)
+        ->where('category', 'member')->first();
+
+        if($member  === null){
+
+            return response()->json([
+
+                'message' => 'Invalid member provided'
+            ],400);
+        }
+
+        return new UserResource($member);
+
+    }
+
     public function searchMembers(Request $request)
     {
         $user  = Auth::user();
