@@ -16,7 +16,7 @@ Route::post('/sign-up', [AuthController::class, 'signUp'])->name('sign.up');
 /////////////////////////AUTHENTICATED / PROTECTED  ROUTES //////////////////////////////
 Route::middleware(['auth:sanctum'])->group(function () {
 
-    Route::get('/profile', [AuthController::class, 'getProfile'])->name('profile');
+    Route::get('/admin/profile', [AuthController::class, 'getProfile'])->name('profile');
 
     Route::post('/admin/registration', [MemberController::class, 'completeRegistration'])->name('complete.registration');
 
@@ -50,6 +50,7 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
 
         Route::get('/investments/options', [InvestmentController::class, 'getInvestmentOptions'])->name('investment.options');
         Route::get('/investments/plans', [InvestmentController::class, 'getInvestmentPlans'])->name('investment.plans');
+        Route::post('/investments/plans', [InvestmentController::class, 'createInvestmentPlan'])->name('investment.plans.store');
         Route::post('/investments', [InvestmentController::class, 'recordInvestment'])->name('investment.store');
         Route::get('/investments', [InvestmentController::class, 'getInvestments'])->name('investments');
         Route::get('/investments/{investment}', [InvestmentController::class, 'getInvestment'])->name('investment');

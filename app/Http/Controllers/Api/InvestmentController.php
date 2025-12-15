@@ -14,6 +14,7 @@ use App\Http\Resources\InvestmentManagement\InvestmentPlanResource;
 use App\Http\Resources\InvestmentManagement\InvestmentResource;
 use App\Http\Resources\Administration\AccountTypeResource;
 use App\Http\Requests\Api\Investments\RecordInvestmentRequest;
+use App\Http\Requests\Api\Investments\CreateInvestmentPlanRequest;
 use App\Http\Requests\Api\Investments\UpdateInvestmentStatusRequest;
 use Auth;
 use App\Services\InvestmentService;
@@ -317,5 +318,31 @@ class InvestmentController extends Controller
 
         return AccountTypeResource::collection($accountTypes);
    
+    }
+
+
+    public function createInvestmentPlan(CreateInvestmentPlanRequest $request)
+    {
+        $user = Auth::user();
+
+        $validated = $request->validated();
+
+        $investmentPlan =  $this->investmentService->storeInvestmentPlan($validated, $user);
+
+        if($investmentPlan){
+
+            return new InvestmentPlanResource($investmentPlan);
+
+        }
+        else{
+
+            return response()->json([
+    
+                'message' => 'Error creating investment pplan'
+            ],500);
+
+        }
+
+
     }
 }

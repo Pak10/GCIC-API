@@ -119,4 +119,41 @@ class InvestmentService {
 
     }
 
+
+    public function storeInvestmentPlan($investmentPlanVars, $user)
+    {
+        try{
+
+            DB::beginTransaction();
+
+                $investmentPlan = InvestmentPlan::create($investmentPlanVars);
+
+                $investmentOptions = [];
+
+                foreach($investmentPlanVars['investment_options'] as $option){
+
+                    $investmentOptions[$option['investment_option_id']] = [
+
+                        'allocation' => $option['allocation']
+                    ];
+                }
+
+                $investmentPlan->options()->sync($investmentOptions);
+
+            DB::commit();
+
+            return $investmentPlan;
+
+        }
+        catch (\Throwable $e) {
+                
+            Log::error('Error storing investment:'. $e->getMessage());
+
+            DB::rollBack();
+
+            return false;
+        }
+
+    }
+
 }
