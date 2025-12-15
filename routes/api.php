@@ -41,7 +41,7 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
 
         Route::get('/members', [MemberController::class, 'getMembers'])->name('fetch.members');
         Route::get('/members/{member}', [MemberController::class, 'getMember'])->name('fetch.member');
-        Route::get('/members/search', [MemberController::class, 'searchMembers'])->name('members.search');
+        Route::get('/search/members', [MemberController::class, 'searchMembers'])->name('members.search');
 
         Route::get('/accounts/types', [AccountController::class, 'getAccountTypes'])->name('account.types');
         Route::get('/accounts/discretionary', [AccountController::class, 'getDiscretionaryAccounts'])->name('discretionary.account');

@@ -308,7 +308,7 @@ class MemberController extends Controller
             $search = $request->search;
 
             $members = $members->where('name','like','%'.$search.'%')
-            ->orWhere('users.email','like','%'.$search.'%');
+            ->orWhere('email','like','%'.$search.'%');
 
         }
 
