@@ -24,6 +24,8 @@ class AccountTransaction extends Model implements  Auditable
         'created_by',
         'data',
         'approved_by',
+        'reviewed_by',
+        'payment_transaction_id',
         'rejected_by',
         'status',
 

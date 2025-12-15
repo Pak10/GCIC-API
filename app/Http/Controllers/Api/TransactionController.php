@@ -142,6 +142,37 @@ class TransactionController extends Controller
         */
 
         /*
+            If the required action is to reviewed the transaction
+            1. The user should have permission to review transactions
+            2. The current transaction status should be pending
+        */
+
+        if($validated['status'] == 'reviewed'){
+
+            if(!($user->can('review-transaction'))){
+
+                return response()->json([
+    
+                    'message' => 'User does not have access to this resource'
+                ],403);
+            }
+
+            if($accountTransaction->status !== 'pending'){
+
+                return response()->json([
+    
+                    'message' => 'Transaction has not yet been reviewed'
+                ],400);
+
+            }
+        }
+
+        /*
+            In this flow, there are specific conditions we need to validate depending on the status
+            the user wishes to update to 
+        */
+
+        /*
             If the required action is to approve the transaction
             1. The user should have permission to approve transactions
             2. The current transaction status should be pending
@@ -157,11 +188,11 @@ class TransactionController extends Controller
                 ],403);
             }
 
-            if($accountTransaction->status !== 'pending'){
+            if($accountTransaction->status !== 'reviewed'){
 
                 return response()->json([
     
-                    'message' => 'Invalid Transaction status'
+                    'message' => 'Transaction has not yet been reviewed'
                 ],400);
 
             }

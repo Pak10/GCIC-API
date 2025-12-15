@@ -32,7 +32,8 @@ class UpdateTransactionStatusRequest extends FormRequest
     {
         return [
             
-            'status' => 'required|in:approved,rejected'
+            'status' => 'required|in:approved,reviewed,rejected',
+            'payment_transaction_id' => 'required_if:status,approved',
             
         ];
     }

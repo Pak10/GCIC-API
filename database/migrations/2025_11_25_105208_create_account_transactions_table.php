@@ -21,9 +21,11 @@ return new class extends Migration
             $table->string('method_of_payment')->nullable();
             $table->json('data');
             $table->foreignUuid('approved_by')->nullable()->constrained('users');
+            $table->foreignUuid('reviewed_by')->nullable()->constrained('users');
             $table->foreignUuid('rejected_by')->nullable()->constrained('users');
             $table->foreignUuid('created_by')->nullable()->constrained('users');
-            $table->enum('status', ['pending', 'rejected', 'approved'])->default('pending');
+            $table->enum('status', ['pending', 'rejected', 'reviewed', 'approved'])->default('pending');
+            $table->string('payment_transaction_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

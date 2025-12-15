@@ -114,6 +114,14 @@ class TransactionService {
                         'rejected_by' => $user->id
                     ]);
                 }
+                else if($status === 'reviewed'){
+            
+                    $accountTransaction->update([
+
+                        'status' => $status,
+                        'reviewed_by' => $user->id
+                    ]);
+                }
                 else{
 
                     Log::error('Invalid Trasanction status provided');
