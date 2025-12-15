@@ -35,10 +35,12 @@ class PermissionSeeder extends Seeder
             ['name' => 'delete-investment-plan', 'guard_name' => 'web'],
 
             ['name' => 'record-deposit', 'guard_name' => 'web'],
+            ['name' => 'review-deposit', 'guard_name' => 'web'],
             ['name' => 'approve-deposit', 'guard_name' => 'web'],
             ['name' => 'reject-deposit', 'guard_name' => 'web'],
 
             ['name' => 'record-withdrawal', 'guard_name' => 'web'],
+            ['name' => 'review-withdrawal', 'guard_name' => 'web'],
             ['name' => 'approve-withdrawal', 'guard_name' => 'web'],
             ['name' => 'reject-withdrawal', 'guard_name' => 'web'],
 
@@ -46,6 +48,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'view-transactions', 'guard_name' => 'web'],
             ['name' => 'approve-transaction', 'guard_name' => 'web'],
             ['name' => 'reject-transaction', 'guard_name' => 'web'],
+            ['name' => 'review-transaction', 'guard_name' => 'web'],
 
             ['name' => 'create-investment', 'guard_name' => 'web'],
             ['name' => 'view-investments', 'guard_name' => 'web'],

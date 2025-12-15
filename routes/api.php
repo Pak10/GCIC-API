@@ -16,7 +16,7 @@ Route::post('/sign-up', [AuthController::class, 'signUp'])->name('sign.up');
 /////////////////////////AUTHENTICATED / PROTECTED  ROUTES //////////////////////////////
 Route::middleware(['auth:sanctum'])->group(function () {
 
-    Route::get('/admin/profile', [AuthController::class, 'getProfile'])->name('profile');
+    Route::get('/profile', [AuthController::class, 'getProfile'])->name('profile');
 
     Route::post('/admin/registration', [MemberController::class, 'completeRegistration'])->name('complete.registration');
 
