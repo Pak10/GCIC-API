@@ -36,4 +36,27 @@ class AuthorisationService {
             return false;
         }
     }
+
+    public function assignPermissions($role, $permissions)
+    {
+        try {
+
+            DB::beginTransaction();
+
+                $assignPermissions = $role->syncPermissions($permissions);
+            
+            DB::commit();
+
+            return $role;
+
+        } catch (\Throwable $e) {
+
+            Log::error('Error assigning permission: '. $e->getMessage());
+
+            DB::rollBack();
+
+            return false;
+        }
+
+    }
 }

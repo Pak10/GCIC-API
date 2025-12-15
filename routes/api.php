@@ -75,7 +75,8 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
         /////////////////// AUTHORISATION ROUTES  ///////////////////////////////////////////////
 
         Route::get('/roles', [AuthorisationController::class, 'getRoles'])->name('fetch.roles');
-        Route::post('/roles', [AuthorisationController::class, 'storeRole'])->name('store.role');
+        Route::get('/roles/{role}', [AuthorisationController::class, 'getRole'])->name('fetch.role');
+        Route::post('/roles', [AuthorisationController::class, 'createRole'])->name('store.role');
         Route::get('/permissions', [AuthorisationController::class, 'getPermissions'])->name('fetch.permissions');
         Route::put('/roles/{role}/permissions', [AuthorisationController::class, 'attachPermissions'])->name('attach.permissions');
 

@@ -26,6 +26,9 @@ class User extends Authenticatable implements Auditable
      *
      * @var list<string>
      */
+
+    protected $guard_name = 'web';
+
     protected $fillable = [
         'name',
         'email',

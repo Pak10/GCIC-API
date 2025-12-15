@@ -57,9 +57,11 @@ class MemberService {
         }
     }
 
-    public function updateRegistrationStatus($memberRegistration, $status, $user){
+    public function updateRegistrationStatus($memberRegistration, $memberRegistrationVars, $user){
 
         try{
+
+            $status = $memberRegistrationVars['status'];
 
             DB::beginTransaction();
 
@@ -73,6 +75,8 @@ class MemberService {
                     $memberRegistration->update([
 
                         'data->approved_by' => $user->id,
+                        'data->investment_plan_id' => $memberRegistrationVars['investment_plan_id'],
+                        'data->account_type_id' => $memberRegistrationVars['account_type_id'],
                     ]);
 
                     $userAccount = $this->setupMemberAccount($memberRegistration);

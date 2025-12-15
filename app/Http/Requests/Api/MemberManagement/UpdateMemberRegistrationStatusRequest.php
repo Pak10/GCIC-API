@@ -32,7 +32,9 @@ class UpdateMemberRegistrationStatusRequest extends FormRequest
     {
         return [
             
-            'status' => 'required|in:approved,reviewed,rejected'
+            'status' => 'required|in:approved,reviewed,rejected',
+            'investment_plan_id' => 'required_if:status,approved',
+            'account_type_id' => 'required_if:status,approved',
         ];
     }
 }

@@ -33,7 +33,7 @@ class AttachPermissionsRequest extends FormRequest
         return [
             
             'permissions' => 'required|array',
-            'permissions.*' => 'requiredexists:permissions,id',
+            'permissions.*' => 'required|exists:permissions,name',
         ];
     }
 }
