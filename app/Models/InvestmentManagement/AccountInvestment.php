@@ -11,6 +11,7 @@ class AccountInvestment extends Pivot
     
     protected $fillable = [
 
+        'id',
         'account_id',
         'investment_id',
         'amount_invested',
