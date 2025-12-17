@@ -8,6 +8,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AccountTransaction extends Model implements  Auditable
 {
@@ -34,4 +35,6 @@ class AccountTransaction extends Model implements  Auditable
     protected $casts = [
         'data' => 'array',
     ];
+
+    
 }

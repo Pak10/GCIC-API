@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 use App\Models\InvestmentManagement\InvestmentOption;
 use App\Models\InvestmentManagement\InvestmentPlan;
 use App\Models\InvestmentManagement\Investment;
+use App\Models\InvestmentManagement\InvestmentTransaction;
 use App\Models\Administration\Account;
 use App\Models\Administration\AccountType;
 use App\Http\Resources\InvestmentManagement\InvestmentOptionResource;
 use App\Http\Resources\InvestmentManagement\InvestmentPlanResource;
 use App\Http\Resources\InvestmentManagement\InvestmentResource;
+use App\Http\Resources\InvestmentManagement\InvestmentTransactionResource;
 use App\Http\Resources\Administration\AccountTypeResource;
 use App\Http\Requests\Api\Investments\RecordInvestmentRequest;
 use App\Http\Requests\Api\Investments\CreateInvestmentPlanRequest;
@@ -342,7 +344,86 @@ class InvestmentController extends Controller
             ],500);
 
         }
+    }
 
+    public function getInvestmentTransactions(Request $request, $investmentReference)
+    {
+
+        $user  = Auth::user();
+
+
+        if(!($user->can('view-transactions'))){
+
+            return response()->json([
+
+                'message' => 'User does not have access to this resource'
+            ],403);
+        }
+
+        $investment = Investment::where('transaction_reference', $investmentReference)->first();
+
+        if($investment === null){
+
+            return response()->json([
+
+                'message' => 'Invalid investment reference'
+            ],400);
+
+        }
+
+
+        $investmentTransactions  = InvestmentTransaction::with(['type', 'investment', 'accountTransaction','account'])
+        ->where('investment_id', $investment->id)->orderBy('created_at', 'desc');
+
+
+        $pageSize = 10;
+
+        if(!empty($request->page_size)){
+
+            $pageSize = $request->page_size;
+        }
+
+        $investmentTransactions = $investmentTransactions->paginate($pageSize);
+
+        return InvestmentTransactionResource::collection($investmentTransactions);
+
+    }
+
+
+    public function getInvestmentTransactionStats(Request $request, $investmentReference)
+    {
+
+        $user  = Auth::user();
+
+
+        if(!($user->can('view-transactions'))){
+
+            return response()->json([
+
+                'message' => 'User does not have access to this resource'
+            ],403);
+        }
+
+        $investment = Investment::where('transaction_reference', $investmentReference)->first();
+
+        if($investment === null){
+
+            return response()->json([
+
+                'message' => 'Invalid investment reference'
+            ],400);
+
+        }
+
+        $investmentTransactionTotals = InvestmentTransaction::with('type:id,transaction_type')->where('investment_id', $investment->id)
+        ->selectRaw('SUM(amount) as total_amount, transaction_type_id')
+        ->groupBy('transaction_type_id')
+        ->get();
+
+        return response()->json([
+
+            $investmentTransactionTotals
+        ]);
 
     }
 }
