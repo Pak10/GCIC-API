@@ -54,7 +54,7 @@ class RegisterMemberRequest extends FormRequest
             'gender' => 'required|in:male,female',
             'nationality'  => 'required|string|min:3|max:255',
             'email'  => 'required|email|unique:users,email',
-            'phone_number' => 'required|size:13|starts_with:+256|unique:users,phone_number',
+            'phone_number' => 'nullable|size:13|starts_with:+256|unique:users,phone_number',
             'physical_address'  => 'required|string|min:3|max:255',
             'type_of_identification'  => 'required|in:passport,national_identification_number',
             'country_of_residence'  => 'required|string|min:3|max:255',
@@ -78,7 +78,8 @@ class RegisterMemberRequest extends FormRequest
             'next_of_kin.*.email' => 'required|email',
             'created_by' => 'required',
             'category' => 'required',
-            'registration_reference' => 'required'
+            'registration_reference' => 'required',
+            'referred_by' => 'nullable',
         ];
     }
 }

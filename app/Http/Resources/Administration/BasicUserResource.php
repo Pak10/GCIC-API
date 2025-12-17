@@ -28,6 +28,7 @@ class BasicUserResource extends JsonResource
             'status' => new UserStatusResource($this->whenLoaded('userStatus')),
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
             'accounts' => AccountResource::collection($this->whenLoaded('accounts')),
+            'details' => new UserDetailResource($this->whenLoaded('details')),
         ];
     }
 }

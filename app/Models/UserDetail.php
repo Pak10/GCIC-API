@@ -21,5 +21,13 @@ class UserDetail extends Model implements  Auditable
         'other_name',
         'gender',
         'date_of_birth',
+        'bank',
+        'bank_branch',
+        'account_number',
+        'account_name',
+        'country_of_residence',
+        'type_of_identification',
+        'mobile_money_name',
+        'mobile_money_number',
     ];
 }

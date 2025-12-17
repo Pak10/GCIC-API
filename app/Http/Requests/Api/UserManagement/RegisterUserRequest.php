@@ -53,7 +53,7 @@ class RegisterUserRequest extends FormRequest
             'first_name'  => 'required|string|min:3|max:255',
             'last_name' => 'required|string|min:3|max:255',
             'email' => 'required|email|unique:users,email',
-            'phone_number' => 'required|size:13|starts_with:+256|unique:users,phone_number',
+            'phone_number' => 'nullable|size:13|starts_with:+256|unique:users,phone_number',
             'role' => 'required|exists:roles,name',
             'reviewed_by' => 'required',
             'approved_by' => 'required',

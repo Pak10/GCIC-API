@@ -300,7 +300,7 @@ class MemberController extends Controller
             ],403);
         }
 
-        $members = User::with(['accounts.type'])
+        $members = User::with(['accounts.type', 'details'])
         ->where('category', 'member');
 
         if(!empty($request->search)){
