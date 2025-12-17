@@ -58,6 +58,7 @@ class RecordWithdrawalRequest extends FormRequest
             'date_of_transaction' => 'required|date',
             'created_by' => 'required',
             'transaction_reference' => 'required',
+            'reason' => 'required',
         ];
     }
 }
