@@ -17,6 +17,7 @@ class TransactionType extends Model implements  Auditable
     protected $fillable = [
 
         'booking',
-        'transaction_type'
+        'transaction_type',
+        'affect_investments'
     ];
 }

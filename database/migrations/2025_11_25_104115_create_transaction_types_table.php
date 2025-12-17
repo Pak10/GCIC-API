@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('transaction_type');
             $table->string('booking');
+            $table->boolean('affect_investments')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

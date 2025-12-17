@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('gender')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->string('email');
+            $table->decimal('fund_allocation',5,2);
             $table->string('phone_number');
             $table->softDeletes();
             $table->timestamps();

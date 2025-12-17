@@ -17,6 +17,7 @@ class TransactionTypeSeeder extends Seeder
 
             'transaction_type' => 'Deposit',
             'booking' => 'credit',
+            'affect_investments' => true,
     
         ]);
 
@@ -24,6 +25,7 @@ class TransactionTypeSeeder extends Seeder
 
             'transaction_type' => 'Withdrawal',
             'booking' => 'debit',
+            'affect_investments' => true,
     
         ]);
     }

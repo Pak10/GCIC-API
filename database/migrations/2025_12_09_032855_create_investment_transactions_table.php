@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('investment_transactions', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignUuid('account_investment_id')->constrained('account_investment');
             $table->foreignUuid('account_transaction_id')->constrained();
+            $table->foreignUuid('transaction_type_id')->constrained();
             $table->foreignUuid('account_id')->constrained();
             $table->foreignUuid('investment_id')->constrained();
             $table->date('date_of_transaction');
+            $table->decimal('amount', 30,2);
             $table->softDeletes();
             $table->timestamps();
         });

@@ -38,7 +38,18 @@ class TransactionController extends Controller
 
         $validated = $request->validated();
 
-        $account = Account::where('account_identifier', $validated['account_identifier'])->first();
+        if($user->category === 'member'){
+
+            $account = Account::where('user_id', $user->id)->first();
+
+        }
+        else{
+
+            $account = Account::where('account_identifier', $validated['account_identifier'])->first();
+
+        }
+
+
 
         if($account === null){
 

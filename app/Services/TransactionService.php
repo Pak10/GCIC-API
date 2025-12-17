@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use App\Models\Administration\Account;
 use App\Models\Transactions\TransactionType;
 use App\Models\Transactions\AccountTransaction;
+use App\Models\InvestmentManagement\Investment;
+use App\Models\InvestmentManagement\AccountInvestment;
 
 class TransactionService {
 
@@ -158,6 +160,34 @@ class TransactionService {
                     return false;
                 }
 
+                /*
+                    Check if there are any open investments
+                    Need to record these so as to track this
+                */
+
+                $openInvestments = Investment::where('status', 'open')->pluck('id');
+                
+                if(!empty($openInvestments)){
+
+                    $accountLegder = AccountInvestment::whereIn('investment_id', $openInvestments)
+                    ->where('account_id', $account->id)->get();
+
+                    foreach($accountLegder as $ledger){
+
+                        $ledger->transactions()->create([
+
+                            'account_transaction_id' => $accountTransaction->id,
+                            'account_id' => $account->id,
+                            'investment_id' => $ledger->investment_id,
+                            'transaction_type_id' => $transactionType->id,
+                            'date_of_transaction' => $accountTransaction->date_of_transaction,
+                            'amount' => $accountTransaction->amount,
+
+                        ]);
+                    }
+
+                }
+
                 if($transactionType->transaction_type === 'Deposit'){
 
                     $account->update([
@@ -195,6 +225,41 @@ class TransactionService {
                     Log::error('Account not found when updating transaction');
 
                     return false;
+                }
+
+                                /*
+                    Check if there are any open investments
+                    Need to record these so as to track this
+                */
+
+                $openInvestments = Investment::where('status', 'open')->pluck('id');
+                
+                if(!empty($openInvestments)){
+
+                    $accountLegder = AccountInvestment::whereIn('investment_id', $openInvestments)
+                    ->where('account_id', $account->id)->get();
+
+                    foreach($accountLegder as $ledger){
+
+                        $ledger->update([
+
+                            'investment_changed' => true,
+                            'amount_withdrawn' => ($ledger->amount_withdrawn + $accountTransaction->amount),
+                            'amount_invested' => ($ledger->amount_invested - $accountTransaction->amount),
+                        ]);
+
+                        $ledger->transactions()->create([
+
+                            'account_transaction_id' => $accountTransaction->id,
+                            'account_id' => $account->id,
+                            'investment_id' => $ledger->investment_id,
+                            'transaction_type_id' => $transactionType->id,
+                            'date_of_transaction' => $accountTransaction->date_of_transaction,
+                            'amount' => $accountTransaction->amount,
+
+                        ]);
+                    }
+
                 }
 
                 if($transactionType->transaction_type === 'Withdrawal'){

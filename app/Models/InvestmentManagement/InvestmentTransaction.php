@@ -13,5 +13,15 @@ class InvestmentTransaction extends Model implements  Auditable
 {
     use HasFactory, AuditableTrait, SoftDeletes,HasUuids;
 
-    
+    protected $fillable = [
+
+        'transaction_type_id',
+        'investment_id',
+        'account_investment_id',
+        'account_id',
+        'amount',
+        'date_of_transaction',
+        'account_transaction_id'
+
+    ];
 }
