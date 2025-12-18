@@ -13,15 +13,7 @@ class RecordDepositRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if(Auth::user()->can('record-deposit')){
-
-            return true;
-        }
-
-        else{
-
-            return false;
-        }
+        return true;
     }
 
     protected function prepareForValidation(){

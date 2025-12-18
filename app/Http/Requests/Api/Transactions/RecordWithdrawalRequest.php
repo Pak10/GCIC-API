@@ -13,15 +13,7 @@ class RecordWithdrawalRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if(Auth::user()->can('record-withdrawal')){
-
-            return true;
-        }
-
-        else{
-
-            return false;
-        }
+        return true;
     }
 
     protected function prepareForValidation(){

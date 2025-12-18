@@ -52,8 +52,18 @@ class TransactionController extends Controller
                 ],400);
 
             }
+
+            $account = Account::where('account_identifier', $validated['account_identifier'])->first();
         }
         else{
+
+            if(!($user->can('record-deposit'))){
+
+                return response()->json([
+    
+                    'message' => 'User does not have access to this resource'
+                ],403);
+            }
 
             $account = Account::where('account_identifier', $validated['account_identifier'])->first();
 
@@ -280,7 +290,36 @@ class TransactionController extends Controller
 
         $validated = $request->validated();
 
-        $account = Account::where('account_identifier', $validated['account_identifier'])->first();
+        if($user->category === 'member'){
+
+            $accounts = Account::where('user_id', $user->id)->pluck('id');
+
+            $accountTransactions = AccountTransaction::whereIn('account_id', $accounts)->pluck('account_identifier');
+
+            if ( !(in_array($validated['account_identifier'], $accountTransactions))) {
+
+                return response()->json([
+
+                    'message' => 'Invalid Account provided'
+                ],400);
+
+            }
+
+            $account = Account::where('account_identifier', $validated['account_identifier'])->first();
+        }
+        else{
+
+            if(!($user->can('record-withdrawal'))){
+
+                return response()->json([
+    
+                    'message' => 'User does not have access to this resource'
+                ],403);
+            }
+
+            $account = Account::where('account_identifier', $validated['account_identifier'])->first();
+
+        }
 
         if($account === null){
 
