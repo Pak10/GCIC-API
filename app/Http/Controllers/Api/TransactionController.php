@@ -40,16 +40,24 @@ class TransactionController extends Controller
 
         if($user->category === 'member'){
 
-            $account = Account::where('user_id', $user->id)->first();
+            $accounts = Account::where('user_id', $user->id)->pluck('id');
 
+            $accountTransactions = AccountTransaction::whereIn('account_id', $accounts)->pluck('account_identifier');
+
+            if ( !(in_array($validated['account_identifier'], $accountTransactions))) {
+
+                return response()->json([
+
+                    'message' => 'Invalid Account provided'
+                ],400);
+
+            }
         }
         else{
 
             $account = Account::where('account_identifier', $validated['account_identifier'])->first();
 
         }
-
-
 
         if($account === null){
 
@@ -82,13 +90,27 @@ class TransactionController extends Controller
 
         $user =  Auth::user();
 
-        if($user->can('view-transactions')){
+        if($user->category === 'member'){
 
-            $accountTransactions = AccountTransaction::orderBy('created_at', 'desc');
+            $accounts = Account::where('user_id', $user->id)->pluck('id');
+
+            $accountTransactions = AccountTransaction::whereIn('account_id', $accounts)->orderBy('created_at', 'desc');
+
         }
         else{
 
+            if($user->can('view-transactions')){
 
+                $accountTransactions = AccountTransaction::orderBy('created_at', 'desc');
+            }
+            else{
+        
+                return response()->json([
+
+                    'message' => 'User does not have access to this resource'
+                ],403);
+    
+            }
         }
 
         if(!empty($request->transaction_type_id)){
