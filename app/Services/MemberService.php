@@ -161,6 +161,7 @@ class MemberService {
                         'approved_by' => $memberRegistrationData['approved_by'],
                         'reviewed_by' => $memberRegistrationData['reviewed_by'],
                         'referred_by' => $memberRegistrationData['referred_by'],
+
                     ]);
 
                 }

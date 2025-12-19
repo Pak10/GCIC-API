@@ -88,6 +88,7 @@ class InvestmentService {
                             'amount_returned' => $investmentVars['amount_returned'],
                             'date_of_recovery' => $investmentVars['date_of_recovery'],
                             'profit' => ($investmentVars['amount_returned'] - $investment->amount),
+                            'share_profit' => ((($investmentVars['amount_returned'] - $investment->amount) / $this->investmentCapital($investment)) * 100),
                             'closed_by' => $user->id
                         ]);
 
@@ -100,7 +101,7 @@ class InvestmentService {
     
                         ]);
 
-                        $settleInvestment = SettleInvestment::dispatch($investment, $investmentVars['discretionary_accounts']);
+                        $settleInvestment = SettleInvestment::dispatch($investment, $investmentVars['discretionary_accounts'], $user);
                         
                     }
 

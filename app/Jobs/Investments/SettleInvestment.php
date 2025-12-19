@@ -6,8 +6,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use App\Models\Administration\Account;
 use App\Models\InvestmentManagement\AccountInvestment;
+use App\Models\Transactions\AccountTransaction;
+use App\Models\Transactions\TransactionType;
 use Log;
 use DB;
+use Str;
+use Carbon\Carbon;
 
 class SettleInvestment implements ShouldQueue
 {
@@ -20,11 +24,15 @@ class SettleInvestment implements ShouldQueue
 
     protected $discretionaryAccounts;
 
-    public function __construct($investment, $discretionaryAccounts)
+    protected $user;
+
+    public function __construct($investment, $discretionaryAccounts, $user)
     {
         $this->investment =  $investment;
 
         $this->discretionaryAccounts = $discretionaryAccounts;
+
+        $this->user  = $user;
     }
 
     /**
@@ -35,50 +43,82 @@ class SettleInvestment implements ShouldQueue
         /*
             Function to handle settlement of the accounts
         */
-
-        /*
-            Begin with discretionary accounts
-        */
         
         try{
 
-        
-            foreach($this->discretionaryAccounts as $account){
+            DB::beginTransaction();
 
-                $discretionaryAccount = Account::where('account_identifier', $account['account_identifier'])->first();
+                $investmentTransactionType =  TransactionType::where('transaction_type', 'Investment Interest')->first();
 
-                if($discretionaryAccount === null){
+                if($investmentTransactionType === null){
 
-                    Log::error('Invalid account identifier provided:'. $e->getMessage());
+                    Log::error('Invalid Transaction Type:');
 
                     DB::rollBack();
         
                     return;
-
                 }
 
-                $accountInvestment =  AccountInvestment::where('account_id', $discretionaryAccount->id)
-                ->where('investment_id', $this->investment->id)->first();
+                
+                /*
+                    Begin with discretionary accounts
+                */
+                foreach($this->discretionaryAccounts as $account){
 
-                if($accountInvestment !== null){
+                    $discretionaryAccount = Account::where('account_identifier', $account['account_identifier'])->first();
 
-                    $accountInvestment->update([
+                    if($discretionaryAccount === null){
 
-                        'amount_returned' => $account['amount_returned'],
-                        'interest_gained' => ($account['amount_returned'] - $accountInvestment->amount_invested),
-                    ]);
+                        Log::error('Invalid account identifier provided:'. $e->getMessage());
 
-                    
+                        DB::rollBack();
+            
+                        return;
 
-                    $account->update([
+                    }
 
-                        'total_deposit' => ($account->total_deposit + $account['amount_returned']),
-                        'interest_gained' => ($account->interest_gained + $accountInvestment->interest_gained)
-                    ]);
+                    $accountInvestment =  AccountInvestment::where('account_id', $discretionaryAccount->id)
+                    ->where('investment_id', $this->investment->id)->first();
+
+                    if($accountInvestment !== null){
+
+                        $accountInvestment->update([
+
+                            'amount_returned' => $account['amount_returned'],
+                            'interest_gained' => ($account['amount_returned'] - $accountInvestment->amount_invested),
+                        ]);
+
+
+                        $accountTransaction =  AccountTransaction::create([
+
+                            'account_id' => $discretionaryAccount->id,
+                            'amount' => $accountInvestment->interest_gained,
+                            'transaction_type_id' => $investmentTransactionType->id,
+                            'transaction_reference'  => Str::uuid(),
+                            'date_of_transaction' => Carbon::now(),
+                            'approved_by' => $this->user->id,
+                            'reviewed_by' => $this->user->id,
+                            'status' => 'approved',
+
+                        ]);
+
+                        $account->update([
+
+                            'total_deposit' => ($account->total_deposit + $accountInvestment->interest_gained),
+                            'interest_gained' => ($account->interest_gained + $accountInvestment->interest_gained)
+                        ]);
+                    }
+
+
+                    /*
+                        Handle the rest of the other accounts
+                    */
                 }
 
 
-            }
+            DB::commit();
+
+
         }
         catch (\Throwable $e) {
                 
