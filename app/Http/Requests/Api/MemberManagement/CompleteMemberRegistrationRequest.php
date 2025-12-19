@@ -52,7 +52,7 @@ class CompleteMemberRegistrationRequest extends FormRequest
             'date_of_birth' => 'required|date',
             'gender' => 'required|in:male,female',
             'nationality'  => 'required|string|min:3|max:255',
-            'email'  => 'required|email|unique:users,email',
+            'email'  => 'required|email|unique:users,email,'.$this->created_by,
             'phone_number' => 'nullable|size:13|starts_with:+256|unique:users,phone_number',
             'physical_address'  => 'required|string|min:3|max:255',
             'type_of_identification'  => 'required|in:passport,national_identification_number',

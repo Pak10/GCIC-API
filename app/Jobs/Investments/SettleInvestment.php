@@ -49,8 +49,30 @@ class SettleInvestment implements ShouldQueue
 
                 if($discretionaryAccount === null){
 
-                    
+                    Log::error('Invalid account identifier provided:'. $e->getMessage());
 
+                    DB::rollBack();
+        
+                    return;
+
+                }
+
+                $accountInvestment =  AccountInvestment::where('account_id', $discretionaryAccount->id)
+                ->where('investment_id', $this->investment->id)->first();
+
+                if($accountInvestment !== null){
+
+                    $accountInvestment->update([
+
+                        'amount_returned' => $account['amount_returned'],
+                        'interest_gained' => ($account['amount_returned'] - $accountInvestment->amount_invested),
+                    ]);
+
+                    $account->update([
+
+                        'total_deposit' => ($account->total_deposit + $account['amount_returned']),
+                        'interest_gained' => ($account->interest_gained + $accountInvestment->interest_gained)
+                    ]);
                 }
             }
         }
