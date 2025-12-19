@@ -28,5 +28,13 @@ class TransactionTypeSeeder extends Seeder
             'affect_investments' => true,
     
         ]);
+
+        $investmentInterest = TransactionType::create([
+
+            'transaction_type' => 'Investment Interest',
+            'booking' => 'credit',
+            'affect_investments' => false,
+    
+        ]);
     }
 }

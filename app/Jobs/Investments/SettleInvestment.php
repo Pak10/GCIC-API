@@ -68,12 +68,16 @@ class SettleInvestment implements ShouldQueue
                         'interest_gained' => ($account['amount_returned'] - $accountInvestment->amount_invested),
                     ]);
 
+                    
+
                     $account->update([
 
                         'total_deposit' => ($account->total_deposit + $account['amount_returned']),
                         'interest_gained' => ($account->interest_gained + $accountInvestment->interest_gained)
                     ]);
                 }
+
+
             }
         }
         catch (\Throwable $e) {
