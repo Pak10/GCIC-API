@@ -322,6 +322,8 @@ class MemberController extends Controller
 
         $validated = $request->validated();
 
+        $validated['user_id'] = $user->id;
+
         $userRegistration = $this->memberService->registerMember($validated, $user, true);
 
         if($userRegistration){

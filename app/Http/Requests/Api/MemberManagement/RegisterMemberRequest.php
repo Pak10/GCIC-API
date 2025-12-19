@@ -72,7 +72,7 @@ class RegisterMemberRequest extends FormRequest
             'next_of_kin.*.last_name' => 'required|string|min:3|max:255',
             'next_of_kin.*.other_name' => 'nullable|string|min:3|max:255',
             'next_of_kin.*.relationship' => 'required|string|min:3|max:255',
-            'next_of_kin.*.phone_number' => 'required|size:12|starts_with:256',
+            'next_of_kin.*.phone_number' => 'required|size:13|starts_with:+256',
             'next_of_kin.*.fund_allocation' => 'required|string|min:3|max:255',
             'next_of_kin.*.residence' => 'required|string|min:3|max:255',
             'next_of_kin.*.email' => 'required|email',

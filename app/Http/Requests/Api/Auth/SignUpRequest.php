@@ -36,7 +36,7 @@ class SignUpRequest extends FormRequest
         return [
             
             'email' => 'required|email|unique:users,email',
-            'phone_number' => 'required|unique:users,phone_number|starts_with:+256|size:13',
+            'phone_number' => 'nullable|unique:users,phone_number|starts_with:+256|size:13',
             'password' => [
                 'required',
                 Password::min(8)

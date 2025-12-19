@@ -133,11 +133,29 @@ class MemberService {
 
                 $password =  Str::password(8);
 
-                $memberRegistrationData['password'] = bcrypt($password);
-                $memberRegistrationData['name'] = $memberRegistrationData['first_name'].' '.$memberRegistrationData['last_name'];
-                $memberRegistrationData['user_status_id'] = $userStatus->id;
+                if($memberRegistration->self_registration == false){
 
-                $user = User::create($memberRegistrationData);
+                    $memberRegistrationData['password'] = bcrypt($password);
+                    $memberRegistrationData['name'] = $memberRegistrationData['first_name'].' '.$memberRegistrationData['last_name'];
+                    $memberRegistrationData['user_status_id'] = $userStatus->id;
+    
+                    $user = User::create($memberRegistrationData);
+                }
+                else{
+
+                    $user =  User::where('id', $memberRegistrationData['user_id'])->first();
+
+                    if($user === null){
+
+                        Log::error('Error setting up accont: Cannot find user account');
+
+                        DB::rollBack();
+            
+                        return false;
+                    }
+
+
+                }
 
                 $user->details()->create($memberRegistrationData); 
 

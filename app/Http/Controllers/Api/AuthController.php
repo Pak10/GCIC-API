@@ -170,7 +170,7 @@ class AuthController extends Controller
 
         $validated = $request->validated();
 
-        $status =  UserStatus::select('id', 'status')->where('status', 'Active')->first();
+        $status =  UserStatus::select('id', 'status')->where('status', 'Pending')->first();
 
         $validated['user_status_id'] = $status->id;
 

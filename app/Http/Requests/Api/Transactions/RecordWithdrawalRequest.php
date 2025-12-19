@@ -45,7 +45,7 @@ class RecordWithdrawalRequest extends FormRequest
             'account_number' => 'required_if:method_of_payment,bank_transfer|nullable',
             'account_identifier' => 'required|exists:accounts,account_identifier',
             'mobile_money_name' => 'required_if:method_of_payment,mobile_money|nullable',
-            'phone_number' => 'required_if:method_of_payment,mobile_money|nullable|starts_with:+256|size:13',
+            'mobile_money_number' => 'required_if:method_of_payment,mobile_money|nullable|starts_with:+256|size:13',
             'amount' => 'required|int',
             'date_of_transaction' => 'required|date',
             'created_by' => 'required',

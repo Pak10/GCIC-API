@@ -21,6 +21,8 @@ class UserRegistration extends Model implements  Auditable
         'data',
         'data->approved_by',
         'data->reviewed_by',
+        'data->investment_plan_id',
+        'data->account_type_id',
         'status',
     ];
 
