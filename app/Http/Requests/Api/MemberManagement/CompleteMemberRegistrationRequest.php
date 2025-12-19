@@ -75,7 +75,7 @@ class CompleteMemberRegistrationRequest extends FormRequest
             'created_by' => 'required',
             'category' => 'required',
             'registration_reference' => 'required',
-            'referred_by' => 'nullable',
+            'referred_by' => 'nullable|exists:users,id',
         ];
     }
 }
