@@ -114,19 +114,45 @@ class SettleInvestment implements ShouldQueue
                         Handle the rest of the other accounts
                     */
 
+                    $investment = $this->investment;
 
                     AccountInvestment::with([
                         'account'=>[
                         'type',
                         'plan']
                     ])
-                    ->where('investment_id', $this->investment->id)
-                    ->chunkById(50, function ($accountInvestments)  {
+                    ->where('investment_id', $investment->id)
+                    ->chunkById(50, function ($accountInvestments) use ($investment)  {
                     
-                        $accountInvestments->each(function ($accountInvestment, $key) {
+                        $accountInvestments->each(function ($accountInvestment, $key) use($investment) {
 
-                            if($accountInvestment){
+                            /*
+                                We are going through each account to award profit based on their investment plan  
 
+                            */
+
+                            //Check if the account in case investment plan uses share profit
+                            if($accountInvestment->account->plan->share_profit == true){
+
+                                $interestGained = ($accountInvestment->amount_invested * $investment->share_profit);
+                                $amountReturned = ($accountInvestment->amount_invested + $interestGained);
+
+                                $accountInvestment->update([
+
+                                    'amount_returned' => $amountReturned,
+                                    'interest_gained' => $interestGained
+                                ]);
+                            }
+                            else if($accountInvestment->account->plan->has_fixed_interest == true){
+
+                                $interestGained = ($accountInvestment->amount_invested * $accountInvestment->account->plan->fixed_interest);
+                                $amountReturned = ($accountInvestment->amount_invested + $interestGained);
+
+                                $accountInvestment->update([
+
+                                    'amount_returned' => $amountReturned,
+                                    'interest_gained' => $interestGained
+                                ]);
                             }
 
                         });

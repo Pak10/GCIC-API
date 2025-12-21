@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\AuthorisationController;
+use App\Http\Controllers\Api\SettingsController;
 
 Route::post('/auth-verification', [AuthController::class, 'verifyAuthOtp'])->name('verify.auth.otp');
 
@@ -82,6 +83,12 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
         Route::post('/roles', [AuthorisationController::class, 'createRole'])->name('store.role');
         Route::get('/permissions', [AuthorisationController::class, 'getPermissions'])->name('fetch.permissions');
         Route::put('/roles/{role}/permissions', [AuthorisationController::class, 'attachPermissions'])->name('attach.permissions');
+
+
+        ////////////////// SETTINGS  ROUTES ///////////////////////////////////////////////////////
+
+        Route::get('/settings', [SettingsController::class, 'getSettings'])->name('settings');
+        Route::put('/settings', [SettingsController::class, 'updateSettings'])->name('update.settings');
 
     });
 

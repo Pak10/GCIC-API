@@ -73,7 +73,7 @@ class PermissionSeeder extends Seeder
 
             ['name' => 'self-registration', 'guard_name' => 'web'],
 
-
+            ['name' => 'update-settings', 'guard_name' => 'web'],
 
         ];    
 
