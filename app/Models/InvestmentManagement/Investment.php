@@ -18,6 +18,8 @@ class Investment extends Model implements  Auditable
 
     protected $fillable = [
 
+        'investment_name',
+        'investment_description',
         'investment_option_id',
         'amount',
         'transaction_reference',

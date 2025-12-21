@@ -21,7 +21,15 @@ class InvestmentPlan extends Model implements  Auditable
         'has_fixed_interest',
         'fixed_interest',
         'share_option',
+        'mandatory_tithe',
 
+    ];
+
+    protected $casts = [
+
+        'has_fixed_interest' => 'boolean',
+        'share_option' => 'boolean', 
+        'mandatory_tithe' => 'boolean',  
     ];
 
 

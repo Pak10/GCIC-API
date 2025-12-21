@@ -127,7 +127,14 @@ class InvestmentService {
 
             DB::beginTransaction();
 
-                $investmentPlan = InvestmentPlan::create($investmentPlanVars);
+                $investmentPlan = InvestmentPlan::create([
+
+                    'investment_plan' => $investmentPlanVars['investment_plan'],
+                    'fixed_interest' => isset($investmentPlanVars['fixed_interest']) ? $investmentPlanVars['fixed_interest'] : null,
+                    'mandatory_tithe' =>  ($investmentPlanVars['mandatory_tithe']) ? true : false,
+                    'has_fixed_interest' =>  ($investmentPlanVars['has_fixed_interest']) ? true : false,
+                    'share_profit' =>  ($investmentPlanVars['share_profit']) ? true : false,
+                ]);
 
                 $investmentOptions = [];
 

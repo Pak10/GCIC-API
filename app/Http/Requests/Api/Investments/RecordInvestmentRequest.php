@@ -47,6 +47,8 @@ class RecordInvestmentRequest extends FormRequest
     {
         return [
             
+            'investment_name' => 'required|string|max:225',
+            'investment_description' => 'nullable',
             'date_of_investment' => 'required|date',
             'amount' => 'required|int',
             'created_by' => 'required',

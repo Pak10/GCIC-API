@@ -113,6 +113,25 @@ class SettleInvestment implements ShouldQueue
                     /*
                         Handle the rest of the other accounts
                     */
+
+
+                    AccountInvestment::with([
+                        'account'=>[
+                        'type',
+                        'plan']
+                    ])
+                    ->where('investment_id', $this->investment->id)
+                    ->chunkById(50, function ($accountInvestments)  {
+                    
+                        $accountInvestments->each(function ($accountInvestment, $key) {
+
+                            if($accountInvestment){
+
+                            }
+
+                        });
+
+                    });
                 }
 
 

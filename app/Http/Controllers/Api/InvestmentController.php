@@ -8,12 +8,14 @@ use App\Models\InvestmentManagement\InvestmentOption;
 use App\Models\InvestmentManagement\InvestmentPlan;
 use App\Models\InvestmentManagement\Investment;
 use App\Models\InvestmentManagement\InvestmentTransaction;
+use App\Models\InvestmentManagement\AccountInvestment;
 use App\Models\Administration\Account;
 use App\Models\Administration\AccountType;
 use App\Http\Resources\InvestmentManagement\InvestmentOptionResource;
 use App\Http\Resources\InvestmentManagement\InvestmentPlanResource;
 use App\Http\Resources\InvestmentManagement\InvestmentResource;
 use App\Http\Resources\InvestmentManagement\InvestmentTransactionResource;
+use App\Http\Resources\InvestmentManagement\AccountInvestmentResource;
 use App\Http\Resources\Administration\AccountTypeResource;
 use App\Http\Requests\Api\Investments\RecordInvestmentRequest;
 use App\Http\Requests\Api\Investments\CreateInvestmentPlanRequest;
@@ -351,7 +353,6 @@ class InvestmentController extends Controller
 
         $user  = Auth::user();
 
-
         if(!($user->can('view-transactions'))){
 
             return response()->json([
@@ -424,6 +425,48 @@ class InvestmentController extends Controller
 
             $investmentTransactionTotals
         ]);
+
+    }
+
+
+    public function getInvestmentLedger(Request $request, $investmentReference)
+    {
+
+        $user  = Auth::user();
+
+        if(!($user->can('view-investments'))){
+
+            return response()->json([
+
+                'message' => 'User does not have access to this resource'
+            ],403);
+        }
+
+        $investment = Investment::where('transaction_reference', $investmentReference)->first();
+
+        if($investment === null){
+
+            return response()->json([
+
+                'message' => 'Invalid investment reference'
+            ],400);
+
+        }
+
+
+        $accountInvestments =  AccountInvestment::with('account')->where('investment_id', $investment->id);
+
+        $pageSize = 10;
+
+        if(!empty($request->page_size)){
+
+            $pageSize = $request->page_size;
+        }
+
+        $accountInvestments = $accountInvestments->paginate($pageSize);
+
+        return AccountInvestmentResource::collection($accountInvestments);
+
 
     }
 }

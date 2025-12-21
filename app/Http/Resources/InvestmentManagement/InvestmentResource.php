@@ -17,6 +17,8 @@ class InvestmentResource extends JsonResource
         return [
 
             'id' => $this->id,
+            'investment_name' => $this->investment_name,
+            'investment_description' => $this->investment_description,
             'transaction_reference' => $this->transaction_reference,
             'date_of_investment' => $this->date_of_investment,
             'amount' => $this->amount,

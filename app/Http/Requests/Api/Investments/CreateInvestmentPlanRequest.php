@@ -33,6 +33,7 @@ class CreateInvestmentPlanRequest extends FormRequest
             
             'investment_plan' => 'required|string|min:3|max:255',
             'share_profit' => 'required|boolean',
+            'mandatory_tithe' => 'required|boolean',
             'has_fixed_interest' => 'required|boolean',
             'fixed_interest' => 'required_if_accepted:has_fixed_interest',
             'investment_options' => 'required|array',

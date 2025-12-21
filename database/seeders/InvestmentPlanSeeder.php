@@ -19,7 +19,9 @@ class InvestmentPlanSeeder extends Seeder
 
             'investment_plan' => 'Default Plan',
             'has_fixed_interest' => true,
-            'fixed_interest' => 10
+            'fixed_interest' => 10,
+            'share_profit' => false,
+            'mandatory_tithe' => true,
         ]);
 
 

@@ -5,6 +5,8 @@ namespace App\Models\InvestmentManagement;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Models\InvestmentManagement\InvestmentTransaction;
+use App\Models\Administration\Account;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AccountInvestment extends Pivot
 {
@@ -28,6 +30,11 @@ class AccountInvestment extends Pivot
     public function transactions()
     {
         return $this->hasMany(InvestmentTransaction::class, 'account_investment_id', 'id');
+    }
+
+    public function account(): BelongsTo
+    {
+        return $this->belongsTo(Account::class, 'account_id');
     }
 
 }

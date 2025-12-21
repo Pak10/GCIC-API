@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('investments', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('investment_name');
+            $table->mediumText('investment_description')->nullable();
             $table->foreignUuid('investment_option_id')->constrained();
             $table->date('date_of_investment');
             $table->date('expected_recovery_date')->nullable();

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->boolean('has_fixed_interest')->default(false);
             $table->decimal('fixed_interest',5,2)->nullable();
             $table->boolean('share_profit')->default(false);
+            $table->boolean('mandatory_tithe');
             $table->softDeletes();
             $table->timestamps();
         });

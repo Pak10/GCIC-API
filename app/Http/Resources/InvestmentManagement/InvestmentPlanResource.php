@@ -22,6 +22,7 @@ class InvestmentPlanResource extends JsonResource
             'has_fixed_interest' => $this->has_fixed_interest,
             'fixed_interest' => $this->fixed_interest,
             'share_profit' => $this->share_profit,
+            'mandatory_tithe' => $this->mandatory_tithe,
             'investment_options' => InvestmentOptionResource::collection($this->whenLoaded('options')),
             
 

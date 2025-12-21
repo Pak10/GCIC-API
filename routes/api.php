@@ -57,6 +57,7 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
         Route::get('/investments/{investment}/account-types', [InvestmentController::class, 'getAccountTypeInvestment'])->name('account.type.investment');
         Route::put('/investments/{investment}/status', [InvestmentController::class, 'updateInvestmentStatus'])->name('investment.status');
         Route::get('/investments/{investment}/transactions', [InvestmentController::class, 'getInvestmentTransactions'])->name('investment.transactions');
+        Route::get('/investments/{investment}/ledger', [InvestmentController::class, 'getInvestmentLedger'])->name('investment.ledger');
         Route::get('/investments/{investment}/transactions/stats', [InvestmentController::class, 'getInvestmentTransactionStats'])->name('investment.transaction.stats');
 
         ///////////////////// TRANSACTION MANAGEMENT ROUTES  /////////////////////////////////////
