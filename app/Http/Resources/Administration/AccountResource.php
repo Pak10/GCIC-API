@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\InvestmentManagement\InvestmentPlanResource;
 use App\Http\Resources\Administration\AccountTypeResource;
+use App\Http\Resources\Administration\BasicUserResource;
 
 class AccountResource extends JsonResource
 {
@@ -26,6 +27,7 @@ class AccountResource extends JsonResource
             'referral_commission_earned' => $this->referral_commission_earned,
             'investment_plan' => new InvestmentPlanResource($this->whenLoaded('plan')),
             'account_type' => new AccountTypeResource($this->whenLoaded('type')),
+            'user' => new BasicUserResource($this->whenLoaded('user')),
         ];
     }
 }
