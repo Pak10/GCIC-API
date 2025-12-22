@@ -101,8 +101,7 @@ class InvestmentService {
     
                         ]);
 
-                        $settleInvestment = SettleInvestment::dispatch($investment, $investmentVars['discretionary_accounts'], $user, $investmentVars['interest']);
-                        
+                        $settleInvestment = SettleInvestment::dispatch($investment, $investmentVars['discretionary_accounts'], $user, $investmentVars['interest']);      
                     }
 
                 DB::commit();

@@ -54,7 +54,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'view-investments', 'guard_name' => 'web'],
             ['name' => 'cancel-investment', 'guard_name' => 'web'],
             ['name' => 'close-investment', 'guard_name' => 'web'],
-    
+            ['name' => 'settle-investment', 'guard_name' => 'web'],
 
             ['name' => 'create-user', 'guard_name' => 'web'],
             ['name' => 'view-users', 'guard_name' => 'web'],

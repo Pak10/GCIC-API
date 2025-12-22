@@ -95,6 +95,10 @@ class SettleInvestment implements ShouldQueue
                             'interest_gained' => ($account['amount_returned'] - $accountInvestment->amount_invested),
                         ]);
 
+                        $transactionData = [
+
+                            'amount' => $accountInvestment->interest_gained
+                        ];
 
                         $accountTransaction =  AccountTransaction::create([
 
@@ -102,6 +106,7 @@ class SettleInvestment implements ShouldQueue
                             'amount' => $accountInvestment->interest_gained,
                             'transaction_type_id' => $investmentTransactionType->id,
                             'transaction_reference'  => Str::uuid(),
+                            'data' => $transactionData,
                             'date_of_transaction' => Carbon::now(),
                             'approved_by' => $this->user->id,
                             'reviewed_by' => $this->user->id,
@@ -109,13 +114,13 @@ class SettleInvestment implements ShouldQueue
 
                         ]);
 
-                        $account->update([
+                        $discretionaryAccount->update([
 
-                            'total_deposit' => ($account->total_deposit + $accountInvestment->interest_gained),
-                            'interest_gained' => ($account->interest_gained + $accountInvestment->interest_gained)
+                            'total_deposit' => ($discretionaryAccount->total_deposit + $accountInvestment->interest_gained),
+                            'interest_gained' => ($discretionaryAccount->interest_gained + $accountInvestment->interest_gained)
                         ]);
-                    }
 
+                    }
 
                     /*
                         Handle the rest of the other accounts

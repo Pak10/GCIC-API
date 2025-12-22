@@ -255,13 +255,13 @@ class InvestmentController extends Controller
 
         if($validated['status'] == 'settled'){
 
-            if(!($user->can('settle-investment'))){
+            // if(!($user->can('settle-investment'))){
 
-                return response()->json([
+            //     return response()->json([
     
-                    'message' => 'User does not have access to this resource'
-                ],403);
-            }
+            //         'message' => 'User does not have access to this resource'
+            //     ],403);
+            // }
 
             if($investment->status !== 'closed'){
 

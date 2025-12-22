@@ -25,6 +25,7 @@ class AccountInvestment extends Pivot
         'direct_investment',
         'has_fixed_interest',
         'fixed_interest',
+        'gcic_deduction',
     ];
 
     public function transactions()
