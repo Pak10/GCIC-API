@@ -213,6 +213,29 @@ class SettleInvestment implements ShouldQueue
                                     'gcic_deduction' => $gcicDeduction,
                                 ]);
                             }
+
+                            $account =  Account::where('id', $accountInvestment->account_id)->first();
+
+                            $transactionData = [
+
+                                'amount' => $accountInvestment->interest_gained
+                            ];
+
+
+    
+                            $accountTransaction =  AccountTransaction::create([
+    
+                                'account_id' => $discretionaryAccount->id,
+                                'amount' => $accountInvestment->interest_gained,
+                                'transaction_type_id' => $investmentTransactionType->id,
+                                'transaction_reference'  => Str::uuid(),
+                                'data' => $transactionData,
+                                'date_of_transaction' => Carbon::now(),
+                                'approved_by' => $this->user->id,
+                                'reviewed_by' => $this->user->id,
+                                'status' => 'approved',
+    
+                            ]);
                         });
                     });
                 }

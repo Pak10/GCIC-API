@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\InvestmentManagement\InvestmentPlan;
 use App\Models\Administration\AccountType;
+use App\Models\User;
 
 class Account extends Model implements  Auditable
 {
@@ -37,5 +38,10 @@ class Account extends Model implements  Auditable
     public function type(): BelongsTo
     {
         return $this->belongsTo(AccountType::class, 'account_type_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
