@@ -16,6 +16,7 @@ class Setting extends Model implements  Auditable
     protected $fillable  = [
 
         'gcic_investment_deduction',
+        'referral_commission',
     ];
 
     

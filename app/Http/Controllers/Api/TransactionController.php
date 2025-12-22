@@ -257,7 +257,7 @@ class TransactionController extends Controller
                 ],403);
             }
 
-            if($accountTransaction->status !== 'pending'){
+            if($accountTransaction->status !== 'reviewed'){
 
                 return response()->json([
     

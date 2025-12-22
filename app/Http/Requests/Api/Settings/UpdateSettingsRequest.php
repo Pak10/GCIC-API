@@ -32,7 +32,8 @@ class UpdateSettingsRequest extends FormRequest
     {
         return [
             
-            'gcic_investment_deduction' => 'required'
+            'gcic_investment_deduction' => 'required',
+            'referral_commission' => 'nullable|numeric|min:0|max:100',
         ];
     }
 }

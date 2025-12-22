@@ -55,7 +55,7 @@ class CompleteMemberRegistrationRequest extends FormRequest
             'email'  => 'required|email|unique:users,email,'.$this->created_by,
             'phone_number' => 'nullable|size:13|starts_with:+256|unique:users,phone_number',
             'physical_address'  => 'required|string|min:3|max:255',
-            'type_of_identification'  => 'required|in:passport,national_identification_number',
+            'type_of_identification'  => 'required|in:passport_number,national_identification_number',
             'country_of_residence'  => 'required|string|min:3|max:255',
             'bank'  => 'required|string|min:3|max:255',
             'bank_branch'  => 'required|string|min:3|max:255',

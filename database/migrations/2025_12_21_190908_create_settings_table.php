@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->decimal('gcic_investment_deduction',5,2);
+            $table->decimal('referral_commission',5,2)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
