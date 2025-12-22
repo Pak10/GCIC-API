@@ -457,7 +457,7 @@ class InvestmentController extends Controller
         $accountInvestments =  AccountInvestment::with([
             'account'=> [
             'type',
-            'plan']
+            'user']
         ])->where('investment_id', $investment->id);
 
         $pageSize = 10;
