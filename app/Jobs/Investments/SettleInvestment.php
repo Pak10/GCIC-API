@@ -116,7 +116,7 @@ class SettleInvestment implements ShouldQueue
 
                         $discretionaryAccount->update([
 
-                            'total_deposit' => ($discretionaryAccount->total_deposit + $accountInvestment->interest_gained),
+                            'balance' => ($discretionaryAccount->balance + $accountInvestment->interest_gained),
                             'interest_gained' => ($discretionaryAccount->interest_gained + $accountInvestment->interest_gained)
                         ]);
 
@@ -148,7 +148,7 @@ class SettleInvestment implements ShouldQueue
                             //Check if the account in case investment plan uses share profit
                             if($accountInvestment->account->plan->share_profit == true){
 
-                                $interestGained = ($accountInvestment->amount_invested * $investment->share_profit);
+                                $interestGained = ($accountInvestment->amount_invested * ($investment->share_profit/100));
 
                                 $gcicDeduction = null;
 
@@ -171,7 +171,7 @@ class SettleInvestment implements ShouldQueue
                             else if($accountInvestment->account->plan->has_fixed_interest == true){
 
 
-                                $interestGained = ($accountInvestment->amount_invested * $accountInvestment->account->plan->fixed_interest);
+                                $interestGained = ($accountInvestment->amount_invested * ($accountInvestment->account->plan->fixed_interest/100));
 
                                 $gcicDeduction = null;
 
