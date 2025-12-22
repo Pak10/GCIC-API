@@ -225,7 +225,7 @@ class SettleInvestment implements ShouldQueue
     
                             $accountTransaction =  AccountTransaction::create([
     
-                                'account_id' => $discretionaryAccount->id,
+                                'account_id' => $account->id,
                                 'amount' => $accountInvestment->interest_gained,
                                 'transaction_type_id' => $investmentTransactionType->id,
                                 'transaction_reference'  => Str::uuid(),
