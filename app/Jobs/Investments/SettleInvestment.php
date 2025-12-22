@@ -136,9 +136,9 @@ class SettleInvestment implements ShouldQueue
                         'plan']
                     ])
                     ->where('investment_id', $investment->id)
-                    ->chunkById(50, function ($accountInvestments) use ($investment, $generalInterest)  {
+                    ->chunkById(50, function ($accountInvestments) use ($investment, $generalInterest, $investmentTransactionType)  {
                     
-                        $accountInvestments->each(function ($accountInvestment, $key) use($investment, $generalInterest) {
+                        $accountInvestments->each(function ($accountInvestment, $key) use($investment, $generalInterest, $investmentTransactionType) {
 
                             /*
                                 We are going through each account to award profit based on their investment plan  
