@@ -5,6 +5,7 @@ namespace App\Jobs\Investments;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use App\Models\Administration\Account;
+use App\Models\Administration\Setting;
 use App\Models\InvestmentManagement\AccountInvestment;
 use App\Models\Transactions\AccountTransaction;
 use App\Models\Transactions\TransactionType;
@@ -58,6 +59,8 @@ class SettleInvestment implements ShouldQueue
         
                     return;
                 }
+
+                $settings =  Setting::orderBy('created_at', 'asc')->first();
 
                 
                 /*
@@ -135,6 +138,8 @@ class SettleInvestment implements ShouldQueue
                             if($accountInvestment->account->plan->share_profit == true){
 
                                 $interestGained = ($accountInvestment->amount_invested * $investment->share_profit);
+                                $gcicDeduction = ($interestGained * $settings->gcic_investment_deduction);
+                                
                                 $amountReturned = ($accountInvestment->amount_invested + $interestGained);
 
                                 $accountInvestment->update([
