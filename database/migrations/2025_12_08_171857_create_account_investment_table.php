@@ -24,6 +24,7 @@ return new class extends Migration
             $table->boolean('direct_investment')->default(false);
             $table->boolean('has_fixed_interest')->default(false);
             $table->decimal('fixed_interest',5,2)->nullable();
+            $table->decimal('gcic_deduction',30,2)->nullable();
             $table->timestamps();
         });
     }

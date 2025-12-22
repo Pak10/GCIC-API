@@ -27,13 +27,17 @@ class SettleInvestment implements ShouldQueue
 
     protected $user;
 
-    public function __construct($investment, $discretionaryAccounts, $user)
+    protected $generalInterest;
+
+    public function __construct($investment, $discretionaryAccounts, $user, $generalInterest)
     {
         $this->investment =  $investment;
 
         $this->discretionaryAccounts = $discretionaryAccounts;
 
         $this->user  = $user;
+
+        $this->generalInterest = $generalInterest;
     }
 
     /**
@@ -119,15 +123,17 @@ class SettleInvestment implements ShouldQueue
 
                     $investment = $this->investment;
 
+                    $generalInterest = $this->generalInterest;
+
                     AccountInvestment::with([
-                        'account'=>[
+                        'account'=> [
                         'type',
                         'plan']
                     ])
                     ->where('investment_id', $investment->id)
-                    ->chunkById(50, function ($accountInvestments) use ($investment)  {
+                    ->chunkById(50, function ($accountInvestments) use ($investment, $generalInterest)  {
                     
-                        $accountInvestments->each(function ($accountInvestment, $key) use($investment) {
+                        $accountInvestments->each(function ($accountInvestment, $key) use($investment, $generalInterest) {
 
                             /*
                                 We are going through each account to award profit based on their investment plan  
@@ -138,37 +144,75 @@ class SettleInvestment implements ShouldQueue
                             if($accountInvestment->account->plan->share_profit == true){
 
                                 $interestGained = ($accountInvestment->amount_invested * $investment->share_profit);
-                                $gcicDeduction = ($interestGained * $settings->gcic_investment_deduction);
+
+                                $gcicDeduction = null;
+
+                                if($accountInvestment->direct_investment == true){
+
+                                    $gcicDeduction = ($interestGained * $settings->gcic_investment_deduction);
+                                    $interestGained = ($interestGained - $gcicDeduction);
+
+                                }
                                 
                                 $amountReturned = ($accountInvestment->amount_invested + $interestGained);
 
                                 $accountInvestment->update([
 
                                     'amount_returned' => $amountReturned,
-                                    'interest_gained' => $interestGained
+                                    'interest_gained' => $interestGained,
+                                    'gcic_deduction' => $gcicDeduction,
                                 ]);
                             }
                             else if($accountInvestment->account->plan->has_fixed_interest == true){
 
+
                                 $interestGained = ($accountInvestment->amount_invested * $accountInvestment->account->plan->fixed_interest);
+
+                                $gcicDeduction = null;
+
+                                if($accountInvestment->direct_investment == true){
+
+                                    $gcicDeduction = ($interestGained * $settings->gcic_investment_deduction);
+                                    $interestGained = ($interestGained - $gcicDeduction);
+
+                                }
+
                                 $amountReturned = ($accountInvestment->amount_invested + $interestGained);
 
                                 $accountInvestment->update([
 
                                     'amount_returned' => $amountReturned,
-                                    'interest_gained' => $interestGained
+                                    'interest_gained' => $interestGained,
+                                    'gcic_deduction' => $gcicDeduction,
                                 ]);
                             }
+                            else{
 
+                                $interestGained = ($accountInvestment->amount_invested * $generalInterest);
+
+                                $gcicDeduction = null;
+
+                                if($accountInvestment->direct_investment == true){
+
+                                    $gcicDeduction = ($interestGained * $settings->gcic_investment_deduction);
+                                    $interestGained = ($interestGained - $gcicDeduction);
+
+                                }
+
+                                $amountReturned = ($accountInvestment->amount_invested + $interestGained);
+
+                                $accountInvestment->update([
+
+                                    'amount_returned' => $amountReturned,
+                                    'interest_gained' => $interestGained,
+                                    'gcic_deduction' => $gcicDeduction,
+                                ]);
+                            }
                         });
-
                     });
                 }
 
-
             DB::commit();
-
-
         }
         catch (\Throwable $e) {
                 
