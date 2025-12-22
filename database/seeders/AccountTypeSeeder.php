@@ -41,8 +41,7 @@ class AccountTypeSeeder extends Seeder
         ]);
 
 
-        $investmentPlan = InvestmentPlan::orderBy('created_at', 'asc')->first();
-
+        $investmentPlan = InvestmentPlan::where('investment_plan', 'Default Original Plan')->orderBy('created_at', 'asc')->first();
 
         $gcicInvestmentAccount = Account::create([
 

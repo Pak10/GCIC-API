@@ -217,7 +217,6 @@ class SettleInvestment implements ShouldQueue
                     });
                 }
 
-
                 $investment->update([
 
                     'status' => 'settled'
