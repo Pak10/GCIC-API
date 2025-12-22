@@ -174,6 +174,14 @@ class TransactionService {
 
                     foreach($accountLegder as $ledger){
 
+                        
+                        $ledger->update([
+
+                            'investment_changed' => true,
+                            'amount_deposited' => ($ledger->amount_deposited + $accountTransaction->amount),
+         
+                        ]);
+
                         $ledger->transactions()->create([
 
                             'account_transaction_id' => $accountTransaction->id,

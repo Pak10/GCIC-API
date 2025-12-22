@@ -116,7 +116,7 @@ class SettleInvestment implements ShouldQueue
 
                         $discretionaryAccount->update([
 
-                            'total_deposit' => ($discretionaryAccount->total_deposit + $accountInvestment->interest_gained),
+                            'balance' => ($discretionaryAccount->balance + $accountInvestment->interest_gained),
                             'interest_gained' => ($discretionaryAccount->interest_gained + $accountInvestment->interest_gained)
                         ]);
 
@@ -136,9 +136,9 @@ class SettleInvestment implements ShouldQueue
                         'plan']
                     ])
                     ->where('investment_id', $investment->id)
-                    ->chunkById(50, function ($accountInvestments) use ($investment, $generalInterest)  {
+                    ->chunkById(50, function ($accountInvestments) use ($investment, $generalInterest, $investmentTransactionType)  {
                     
-                        $accountInvestments->each(function ($accountInvestment, $key) use($investment, $generalInterest) {
+                        $accountInvestments->each(function ($accountInvestment, $key) use($investment, $generalInterest, $investmentTransactionType) {
 
                             /*
                                 We are going through each account to award profit based on their investment plan  
@@ -148,7 +148,7 @@ class SettleInvestment implements ShouldQueue
                             //Check if the account in case investment plan uses share profit
                             if($accountInvestment->account->plan->share_profit == true){
 
-                                $interestGained = ($accountInvestment->amount_invested * $investment->share_profit);
+                                $interestGained = ($accountInvestment->amount_invested * ($investment->share_profit/100));
 
                                 $gcicDeduction = null;
 
@@ -171,7 +171,7 @@ class SettleInvestment implements ShouldQueue
                             else if($accountInvestment->account->plan->has_fixed_interest == true){
 
 
-                                $interestGained = ($accountInvestment->amount_invested * $accountInvestment->account->plan->fixed_interest);
+                                $interestGained = ($accountInvestment->amount_invested * ($accountInvestment->account->plan->fixed_interest/100));
 
                                 $gcicDeduction = null;
 
@@ -213,9 +213,37 @@ class SettleInvestment implements ShouldQueue
                                     'gcic_deduction' => $gcicDeduction,
                                 ]);
                             }
+
+                            $account =  Account::where('id', $accountInvestment->account_id)->first();
+
+                            $transactionData = [
+
+                                'amount' => $accountInvestment->interest_gained
+                            ];
+
+
+    
+                            $accountTransaction =  AccountTransaction::create([
+    
+                                'account_id' => $account->id,
+                                'amount' => $accountInvestment->interest_gained,
+                                'transaction_type_id' => $investmentTransactionType->id,
+                                'transaction_reference'  => Str::uuid(),
+                                'data' => $transactionData,
+                                'date_of_transaction' => Carbon::now(),
+                                'approved_by' => $this->user->id,
+                                'reviewed_by' => $this->user->id,
+                                'status' => 'approved',
+    
+                            ]);
                         });
                     });
                 }
+
+                $investment->update([
+
+                    'status' => 'settled'
+                ]);
 
             DB::commit();
         }
