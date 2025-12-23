@@ -8,7 +8,7 @@ use App\Http\Resources\Administration\UserDetailResource;
 use App\Http\Resources\Administration\AccountResource;
 use App\Http\Resources\Administration\UserStatusResource;
 use App\Http\Resources\Administration\RoleResource;
-
+use App\Http\Resources\Administration\BasicUserRegistrationResource;
 
 class UserResource extends JsonResource
 {
@@ -37,6 +37,7 @@ class UserResource extends JsonResource
             }),
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
             'accounts' => AccountResource::collection($this->whenLoaded('accounts')),
+            'registration' => new BasicUserRegistrationResource($this->whenLoaded('registration')),
         ];
     }
 }

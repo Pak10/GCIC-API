@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Administration\Account;
+use App\Models\Administration\UserRegistration;
 
 class User extends Authenticatable implements Auditable
 {
@@ -84,5 +85,10 @@ class User extends Authenticatable implements Auditable
     public function approvedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'approved_by', 'id');
+    }
+
+    public function registration(): BelongsTo
+    {
+        return $this->belongsTo(UserRegistration::class, 'user_registration_id', 'id');
     }
 }

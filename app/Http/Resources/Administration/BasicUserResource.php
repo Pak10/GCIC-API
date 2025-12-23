@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Administration\UserStatusResource;
 use App\Http\Resources\Administration\RoleResource;
 use App\Http\Resources\Administration\AccountResource;
+use App\Http\Resources\Administration\BasicUserRegistrationResource;
 
 class BasicUserResource extends JsonResource
 {
@@ -29,6 +30,7 @@ class BasicUserResource extends JsonResource
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
             'accounts' => AccountResource::collection($this->whenLoaded('accounts')),
             'details' => new UserDetailResource($this->whenLoaded('details')),
+            'registration' => new BasicUserRegistrationResource($this->whenLoaded('registration')),
         ];
     }
 }
