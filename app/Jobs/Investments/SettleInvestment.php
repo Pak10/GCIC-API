@@ -154,7 +154,7 @@ class SettleInvestment implements ShouldQueue
 
                                 if($accountInvestment->direct_investment == true){
 
-                                    $gcicDeduction = ($interestGained * $settings->gcic_investment_deduction);
+                                    $gcicDeduction = ($interestGained * ($settings->gcic_investment_deduction/100));
                                     $interestGained = ($interestGained - $gcicDeduction);
 
                                 }
@@ -177,7 +177,7 @@ class SettleInvestment implements ShouldQueue
 
                                 if($accountInvestment->direct_investment == true){
 
-                                    $gcicDeduction = ($interestGained * $settings->gcic_investment_deduction);
+                                    $gcicDeduction = ($interestGained * ($settings->gcic_investment_deduction/100));
                                     $interestGained = ($interestGained - $gcicDeduction);
 
                                 }
@@ -193,13 +193,13 @@ class SettleInvestment implements ShouldQueue
                             }
                             else{
 
-                                $interestGained = ($accountInvestment->amount_invested * $generalInterest);
+                                $interestGained = ($accountInvestment->amount_invested * ($generalInterest/100));
 
                                 $gcicDeduction = null;
 
                                 if($accountInvestment->direct_investment == true){
 
-                                    $gcicDeduction = ($interestGained * $settings->gcic_investment_deduction);
+                                    $gcicDeduction = ($interestGained * ($settings->gcic_investment_deduction/100));
                                     $interestGained = ($interestGained - $gcicDeduction);
 
                                 }
@@ -240,7 +240,7 @@ class SettleInvestment implements ShouldQueue
                                 'balance' => ($account->balance + $accountInvestment->interest_gained),
                                 'interest_gained' => ($account->interest_gained + $accountInvestment->interest_gained)
                             ]);
-                            
+
                         });
                     });
                 }
