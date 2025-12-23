@@ -221,8 +221,6 @@ class SettleInvestment implements ShouldQueue
                                 'amount' => $accountInvestment->interest_gained
                             ];
 
-
-    
                             $accountTransaction =  AccountTransaction::create([
     
                                 'account_id' => $account->id,
@@ -236,6 +234,13 @@ class SettleInvestment implements ShouldQueue
                                 'status' => 'approved',
     
                             ]);
+
+                            $account->update([
+
+                                'balance' => ($account->balance + $accountInvestment->interest_gained),
+                                'interest_gained' => ($account->interest_gained + $accountInvestment->interest_gained)
+                            ]);
+                            
                         });
                     });
                 }
