@@ -130,15 +130,17 @@ class SettleInvestment implements ShouldQueue
 
                     $generalInterest = $this->generalInterest;
 
+                    $user = $this->user;
+
                     AccountInvestment::with([
                         'account'=> [
                         'type',
                         'plan']
                     ])
                     ->where('investment_id', $investment->id)
-                    ->chunkById(50, function ($accountInvestments) use ($investment, $generalInterest, $investmentTransactionType)  {
+                    ->chunkById(50, function ($accountInvestments) use ($investment, $generalInterest, $investmentTransactionType, $user)  {
                     
-                        $accountInvestments->each(function ($accountInvestment, $key) use($investment, $generalInterest, $investmentTransactionType) {
+                        $accountInvestments->each(function ($accountInvestment, $key) use($investment, $generalInterest, $investmentTransactionType, $user) {
 
                             /*
                                 We are going through each account to award profit based on their investment plan  
@@ -229,8 +231,8 @@ class SettleInvestment implements ShouldQueue
                                 'transaction_reference'  => Str::uuid(),
                                 'data' => $transactionData,
                                 'date_of_transaction' => Carbon::now(),
-                                'approved_by' => $this->user->id,
-                                'reviewed_by' => $this->user->id,
+                                'approved_by' => $user->id,
+                                'reviewed_by' => $user->id,
                                 'status' => 'approved',
     
                             ]);
