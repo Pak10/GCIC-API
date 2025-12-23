@@ -40,11 +40,9 @@ class TransactionController extends Controller
 
         if($user->category === 'member'){
 
-            $accounts = Account::where('user_id', $user->id)->pluck('id');
+            $accounts = Account::where('user_id', $user->id)->pluck('account_identifier');
 
-            $accountTransactions = AccountTransaction::whereIn('account_id', $accounts)->pluck('account_identifier');
-
-            if ( !(in_array($validated['account_identifier'], $accountTransactions))) {
+            if ( !(in_array($validated['account_identifier'], $accounts))) {
 
                 return response()->json([
 
@@ -102,9 +100,8 @@ class TransactionController extends Controller
 
         if($user->category === 'member'){
 
-            $accounts = Account::where('user_id', $user->id)->pluck('id');
-
-            $accountTransactions = AccountTransaction::whereIn('account_id', $accounts)->orderBy('created_at', 'desc');
+            $account = Account::where('account_identifier', $validated['account_identifier'])
+            ->where('user_id', $user->id)->first();
 
         }
         else{
@@ -292,20 +289,8 @@ class TransactionController extends Controller
 
         if($user->category === 'member'){
 
-            $accounts = Account::where('user_id', $user->id)->pluck('id');
-
-            $accountTransactions = AccountTransaction::whereIn('account_id', $accounts)->pluck('account_identifier');
-
-            if ( !(in_array($validated['account_identifier'], $accountTransactions))) {
-
-                return response()->json([
-
-                    'message' => 'Invalid Account provided'
-                ],400);
-
-            }
-
-            $account = Account::where('account_identifier', $validated['account_identifier'])->first();
+            $account = Account::where('account_identifier', $validated['account_identifier'])
+            ->where('user_id', $user->id)->first();
         }
         else{
 
