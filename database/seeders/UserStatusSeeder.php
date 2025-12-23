@@ -32,7 +32,11 @@ class UserStatusSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'status' => 'Under Review',
-            ]
+            ],
+            [
+                'id' => Str::uuid(),
+                'status' => 'Pending',
+            ],
 
         ]);
     }
