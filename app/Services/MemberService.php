@@ -43,6 +43,18 @@ class MemberService {
                     'category' => $userVars['category'],
                 ]); 
 
+
+                if($selfRegistration == true){
+
+                    if(!empty($loggedInUser)){
+
+                        $loggedInUser->update([
+
+                            'user_registration_id' => $loggedInUser->id
+                        ]);
+                    }
+                }
+
             DB::commit();
 
             return $memberRegistration;
