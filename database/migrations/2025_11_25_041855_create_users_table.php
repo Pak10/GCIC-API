@@ -24,6 +24,7 @@ return new class extends Migration
             $table->uuid('reviewed_by')->nullable();
             $table->uuid('approved_by')->nullable();
             $table->uuid('referred_by')->nullable();
+            $table->boolean('password_changed')->default(false);
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
