@@ -43,8 +43,10 @@ class AuthorisationService {
 
             DB::beginTransaction();
 
-                $assignPermissions = $role->syncPermissions($permissions);
-            
+                $permissionModels = Permission::whereIn('id', $permissions)->get();
+
+                $role->syncPermissions($permissionModels);
+                
             DB::commit();
 
             return $role;

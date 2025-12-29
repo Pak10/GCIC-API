@@ -18,9 +18,10 @@ class PermissionSeeder extends Seeder
 
             ['name' => 'create-member', 'guard_name' => 'web'],
             ['name' => 'view-members', 'guard_name' => 'web'],
-            ['name' => 'update-memeber', 'guard_name' => 'web'],           
+            ['name' => 'update-member', 'guard_name' => 'web'],           
             ['name' => 'delete-member', 'guard_name' => 'web'],
 
+            ['name' => 'view-requests', 'guard_name' => 'web'],
             ['name' => 'view-member-registrations', 'guard_name' => 'web'],
             ['name' => 'review-member-registrations', 'guard_name' => 'web'],
             ['name' => 'approve-member-registrations', 'guard_name' => 'web'],
