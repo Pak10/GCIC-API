@@ -184,7 +184,45 @@ class AuthController extends Controller
 
             'message' => 'Account created successfully.'
         ]);
+    }
 
+    public function changeUserPassword(Request $request){
+
+        $user =  Auth::user();
+
+        $validated = $request->validate([
+
+            'old_password' => 'required',
+            'new_password' => [
+                'required',
+                Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
+            ],
+            'password_confirmation' => 'required|same:new_password'
+
+        ]);
+
+
+        if (!Hash::check($validated['old_password'], $user->password)) {
+
+            return response()->json(['message' => 'Invalid old password'], 400);
+        }
+
+        if (strcmp($validated['old_password'], $validated['new_password']) == 0){
+
+            return response()->json(['message' => 'New Password cannot be same as your current password.'], 400);
+    
+        }
+
+        $user->password = bcrypt($validated['new_password']);
+        $user->password_changed = true;
+        $user->save();
+
+        return response()->json(['message' => 'Password changed successfully']);
 
     }
 }

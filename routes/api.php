@@ -21,6 +21,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/admin/registration', [MemberController::class, 'completeRegistration'])->name('complete.registration');
 
+
+
 });
 
 /////////////////////////AUTHENTICATED / PROTECTED  ROUTES //////////////////////////////
@@ -33,63 +35,67 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
 
     Route::prefix('admin')->group(function () {
 
-        ///////////////////Register Member ///////////////////////////////////////////////////
+        Route::post('/change-account-password', [AuthController::class, 'changeUserPassword'])->name('change.user.password');
 
-        Route::post('/members', [MemberController::class, 'registerMember'])->name('register.members');
-        Route::get('/members/registrations', [MemberController::class, 'getMemberRegistrations'])->name('member.registrations');
-        Route::get('/members/registrations/{registration}', [MemberController::class, 'getMemberRegistration'])->name('member.registration');
-        Route::put('/members/registrations/{registration}/status', [MemberController::class, 'updateMemberRegistrationStatus'])->name('update.registration.status');
+        Route::middleware(['is_password_changed'])->group(function () {
+            ///////////////////Register Member ///////////////////////////////////////////////////
 
-        Route::get('/members', [MemberController::class, 'getMembers'])->name('fetch.members');
-        Route::get('/members/{member}', [MemberController::class, 'getMember'])->name('fetch.member');
-        Route::get('/search/members', [MemberController::class, 'searchMembers'])->name('members.search');
+            Route::post('/members', [MemberController::class, 'registerMember'])->name('register.members');
+            Route::get('/members/registrations', [MemberController::class, 'getMemberRegistrations'])->name('member.registrations');
+            Route::get('/members/registrations/{registration}', [MemberController::class, 'getMemberRegistration'])->name('member.registration');
+            Route::put('/members/registrations/{registration}/status', [MemberController::class, 'updateMemberRegistrationStatus'])->name('update.registration.status');
 
-        Route::get('/accounts/types', [AccountController::class, 'getAccountTypes'])->name('account.types');
-        Route::get('/accounts/discretionary', [AccountController::class, 'getDiscretionaryAccounts'])->name('discretionary.account');
+            Route::get('/members', [MemberController::class, 'getMembers'])->name('fetch.members');
+            Route::get('/members/{member}', [MemberController::class, 'getMember'])->name('fetch.member');
+            Route::get('/search/members', [MemberController::class, 'searchMembers'])->name('members.search');
 
-        ///////////////////// INVESTMENT MANAGEMENT ROUTES  /////////////////////////////////////
+            Route::get('/accounts/types', [AccountController::class, 'getAccountTypes'])->name('account.types');
+            Route::get('/accounts/discretionary', [AccountController::class, 'getDiscretionaryAccounts'])->name('discretionary.account');
 
-        Route::get('/investments/options', [InvestmentController::class, 'getInvestmentOptions'])->name('investment.options');
-        Route::get('/investments/plans', [InvestmentController::class, 'getInvestmentPlans'])->name('investment.plans');
-        Route::post('/investments/plans', [InvestmentController::class, 'createInvestmentPlan'])->name('investment.plans.store');
-        Route::post('/investments', [InvestmentController::class, 'recordInvestment'])->name('investment.store');
-        Route::get('/investments', [InvestmentController::class, 'getInvestments'])->name('investments');
-        Route::get('/investments/{investment}', [InvestmentController::class, 'getInvestment'])->name('investment');
-        Route::get('/investments/{investment}/account-types', [InvestmentController::class, 'getAccountTypeInvestment'])->name('account.type.investment');
-        Route::put('/investments/{investment}/status', [InvestmentController::class, 'updateInvestmentStatus'])->name('investment.status');
-        Route::get('/investments/{investment}/transactions', [InvestmentController::class, 'getInvestmentTransactions'])->name('investment.transactions');
-        Route::get('/investments/{investment}/ledger', [InvestmentController::class, 'getInvestmentLedger'])->name('investment.ledger');
-        Route::get('/investments/{investment}/transactions/stats', [InvestmentController::class, 'getInvestmentTransactionStats'])->name('investment.transaction.stats');
+            ///////////////////// INVESTMENT MANAGEMENT ROUTES  /////////////////////////////////////
 
-        ///////////////////// TRANSACTION MANAGEMENT ROUTES  /////////////////////////////////////
+            Route::get('/investments/options', [InvestmentController::class, 'getInvestmentOptions'])->name('investment.options');
+            Route::get('/investments/plans', [InvestmentController::class, 'getInvestmentPlans'])->name('investment.plans');
+            Route::post('/investments/plans', [InvestmentController::class, 'createInvestmentPlan'])->name('investment.plans.store');
+            Route::post('/investments', [InvestmentController::class, 'recordInvestment'])->name('investment.store');
+            Route::get('/investments', [InvestmentController::class, 'getInvestments'])->name('investments');
+            Route::get('/investments/{investment}', [InvestmentController::class, 'getInvestment'])->name('investment');
+            Route::get('/investments/{investment}/account-types', [InvestmentController::class, 'getAccountTypeInvestment'])->name('account.type.investment');
+            Route::put('/investments/{investment}/status', [InvestmentController::class, 'updateInvestmentStatus'])->name('investment.status');
+            Route::get('/investments/{investment}/transactions', [InvestmentController::class, 'getInvestmentTransactions'])->name('investment.transactions');
+            Route::get('/investments/{investment}/ledger', [InvestmentController::class, 'getInvestmentLedger'])->name('investment.ledger');
+            Route::get('/investments/{investment}/transactions/stats', [InvestmentController::class, 'getInvestmentTransactionStats'])->name('investment.transaction.stats');
 
-        Route::get('/transactions/types', [TransactionController::class, 'getTransactionTypes'])->name('view.transactions.types');
-        Route::get('/transactions', [TransactionController::class, 'getTransactions'])->name('view.transactions');
-        Route::put('/transactions/{transaction}/status', [TransactionController::class, 'updateTransactionStatus'])->name('update.transaction');
-        Route::post('/deposits', [TransactionController::class, 'recordDeposit'])->name('deposit');
-        Route::post('/withdrawals', [TransactionController::class, 'recordWithdrawal'])->name('withdrawals');
+            ///////////////////// TRANSACTION MANAGEMENT ROUTES  /////////////////////////////////////
 
-        //////////////////// USER MANAGEMENT ROUTES ///////////////////////////////////////////////
+            Route::get('/transactions/types', [TransactionController::class, 'getTransactionTypes'])->name('view.transactions.types');
+            Route::get('/transactions', [TransactionController::class, 'getTransactions'])->name('view.transactions');
+            Route::put('/transactions/{transaction}/status', [TransactionController::class, 'updateTransactionStatus'])->name('update.transaction');
+            Route::post('/deposits', [TransactionController::class, 'recordDeposit'])->name('deposit');
+            Route::post('/withdrawals', [TransactionController::class, 'recordWithdrawal'])->name('withdrawals');
 
-        Route::get('/users', [UserController::class, 'getUsers'])->name('fetch.users');
-        Route::get('/users/{user}', [UserController::class, 'getUser'])->name('fetch.user');
-        Route::post('/users', [UserController::class, 'registerUser'])->name('store.user');
+            //////////////////// USER MANAGEMENT ROUTES ///////////////////////////////////////////////
 
-
-        /////////////////// AUTHORISATION ROUTES  ///////////////////////////////////////////////
-
-        Route::get('/roles', [AuthorisationController::class, 'getRoles'])->name('fetch.roles');
-        Route::get('/roles/{role}', [AuthorisationController::class, 'getRole'])->name('fetch.role');
-        Route::post('/roles', [AuthorisationController::class, 'createRole'])->name('store.role');
-        Route::get('/permissions', [AuthorisationController::class, 'getPermissions'])->name('fetch.permissions');
-        Route::put('/roles/{role}/permissions', [AuthorisationController::class, 'attachPermissions'])->name('attach.permissions');
+            Route::get('/users', [UserController::class, 'getUsers'])->name('fetch.users');
+            Route::get('/users/{user}', [UserController::class, 'getUser'])->name('fetch.user');
+            Route::post('/users', [UserController::class, 'registerUser'])->name('store.user');
 
 
-        ////////////////// SETTINGS  ROUTES ///////////////////////////////////////////////////////
+            /////////////////// AUTHORISATION ROUTES  ///////////////////////////////////////////////
 
-        Route::get('/settings', [SettingsController::class, 'getSettings'])->name('settings');
-        Route::put('/settings', [SettingsController::class, 'updateSettings'])->name('update.settings');
+            Route::get('/roles', [AuthorisationController::class, 'getRoles'])->name('fetch.roles');
+            Route::get('/roles/{role}', [AuthorisationController::class, 'getRole'])->name('fetch.role');
+            Route::post('/roles', [AuthorisationController::class, 'createRole'])->name('store.role');
+            Route::get('/permissions', [AuthorisationController::class, 'getPermissions'])->name('fetch.permissions');
+            Route::put('/roles/{role}/permissions', [AuthorisationController::class, 'attachPermissions'])->name('attach.permissions');
 
+
+            ////////////////// SETTINGS  ROUTES ///////////////////////////////////////////////////////
+
+            Route::get('/settings', [SettingsController::class, 'getSettings'])->name('settings');
+            Route::put('/settings', [SettingsController::class, 'updateSettings'])->name('update.settings');
+
+        });
     });
 
 

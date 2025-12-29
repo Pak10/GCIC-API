@@ -37,6 +37,7 @@ class User extends Authenticatable implements Auditable
         'password',
         'category',
         'user_status_id',
+        'password_changed',
         'reviewed_by',
         'approved_by',
         'referred_by',
