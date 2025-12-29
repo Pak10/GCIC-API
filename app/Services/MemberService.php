@@ -50,7 +50,8 @@ class MemberService {
 
                         $loggedInUser->update([
 
-                            'user_registration_id' => $loggedInUser->id
+                            'user_registration_id' => $loggedInUser->id,
+                            'password_changed' => true,
                         ]);
                     }
                 }
