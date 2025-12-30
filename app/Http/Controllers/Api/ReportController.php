@@ -45,6 +45,7 @@ class ReportController extends Controller
         }
 
 
+        ///////////////////////////////////////ACTIVE MEMBERS //////////////////////////////////////////////////////
         if($showAdminReports === true){
 
         
@@ -53,11 +54,36 @@ class ReportController extends Controller
             ->count();
         }
 
+        ///////////////////////////////////////PENDING REGISTRATIONS //////////////////////////////////////////////////////
+
         if($showAdminReports === true){
 
             $pendingRegistrations =  UserRegistration::where('status', 'pending')->count();
 
         }
+
+
+        ///////////////////////////////////////TOTAL DEPOSITS //////////////////////////////////////////////////////
+
+        $transactionType = TransactionType::where('transaction_type', 'Deposit')->first();
+
+        if($showAdminReports === true){
+
+            $totalDeposits =  AccountTransaction::where('transaction_type_id', $transactionType->id)
+            ->whereNotNull('approved_by')
+            ->sum('amount');
+
+        }
+        else{
+
+
+        }
+
+
+
+        ///////////////////////////////////////TOTAL WITHDRAWALS //////////////////////////////////////////////////////
+
+
 
         if($showAdminReports === true){
 
@@ -67,7 +93,9 @@ class ReportController extends Controller
                 'data' => [
 
                     'active_members' => $totalActiveMembers,
-                    'pending_registrations' => $pendingRegistrations
+                    'pending_registrations' => $pendingRegistrations,
+                    'total_deposits' => $totalDeposits,
+
         
                 ],
             ]);
