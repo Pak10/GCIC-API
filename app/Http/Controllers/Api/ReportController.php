@@ -23,6 +23,8 @@ class ReportController extends Controller
 
         $user =  Auth::user();
 
+        $showAdminReports = false;
+
         if($user->category === 'member'){
 
             $accounts = Account::where('user_id', $user->id)->pluck('id');
@@ -38,26 +40,50 @@ class ReportController extends Controller
                 ],403);
             }
 
+            $showAdminReports = true;
+
         }
 
-        $activeUserStatus = $status =  UserStatus::select('id', 'status')->where('status', 'Active')->first();
 
-        $totalActiveMembers =  User::where('category', 'member')->where('user_status_id', $activeUserStatus->id)
-        ->count();
+        if($showAdminReports === true){
 
+        
+            $activeUserStatus = $status =  UserStatus::select('id', 'status')->where('status', 'Active')->first();
+            $totalActiveMembers =  User::where('category', 'member')->where('user_status_id', $activeUserStatus->id)
+            ->count();
+        }
 
-        $pendingRegistrations =  UserRegistration::where('status', 'pending')->count();
+        if($showAdminReports === true){
 
-        return response()->json([
+            $pendingRegistrations =  UserRegistration::where('status', 'pending')->count();
 
-            'message' => 'success',
-            'data' => [
+        }
 
-                'active_members' => $totalActiveMembers,
-                'pending_registrations' => $pendingRegistrations
-    
-            ],
-        ]);
+        if($showAdminReports === true){
+
+            return response()->json([
+
+                'message' => 'success',
+                'data' => [
+
+                    'active_members' => $totalActiveMembers,
+                    'pending_registrations' => $pendingRegistrations
+        
+                ],
+            ]);
+        }
+        else{
+
+            return response()->json([
+
+                'message' => 'success',
+                'data' => [
+
+        
+                ],
+            ]);
+
+        }
     }
 
     
