@@ -76,6 +76,11 @@ class ReportController extends Controller
         }
         else{
 
+            $totalDeposits =  AccountTransaction::where('transaction_type_id', $transactionType->id)
+            ->whereIn('account_id', $accounts)
+            ->whereNotNull('approved_by')
+            ->sum('amount');
+
 
         }
 
