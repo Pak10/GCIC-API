@@ -76,6 +76,9 @@ class PermissionSeeder extends Seeder
 
             ['name' => 'update-settings', 'guard_name' => 'web'],
 
+            ['name' => 'member-reports', 'guard_name' => 'web'],
+            ['name' => 'investment-reports', 'guard_name' => 'web'],
+
         ];    
 
         $permissions =  Permission::insert($seeded_permissions);

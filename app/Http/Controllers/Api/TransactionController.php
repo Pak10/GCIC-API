@@ -137,14 +137,6 @@ class TransactionController extends Controller
     {
         $user =  Auth::user();
 
-        // if(!($user->can('view-transaction-types'))){
-
-        //     return response()->json([
-
-        //         'message' => 'User does not have access to this resource'
-        //     ],403);
-        // }
-
         $transactionTypes = TransactionType::orderBy('created_at', 'desc')->get();
 
         return TransactionTypeResource::collection($transactionTypes);

@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\AuthorisationController;
 use App\Http\Controllers\Api\SettingsController;
+use App\Http\Controllers\Api\ReportController;
 
 Route::post('/auth-verification', [AuthController::class, 'verifyAuthOtp'])->name('verify.auth.otp');
 
@@ -94,6 +95,13 @@ Route::middleware(['auth:sanctum', 'is_account_approved'])->group(function () {
 
             Route::get('/settings', [SettingsController::class, 'getSettings'])->name('settings');
             Route::put('/settings', [SettingsController::class, 'updateSettings'])->name('update.settings');
+
+            Route::prefix('stats')->group(function () {
+
+                Route::get('/members', [ReportController::class, 'getMemberStatistics'])->name('stats.members');
+
+
+            });
 
         });
     });
