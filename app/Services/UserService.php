@@ -47,6 +47,8 @@ class UserService {
 
                 $userVars['user_status_id'] = $userStatus->id;
 
+                $userVars['password'] =  bcrypt($password);
+
                 $user = User::create($userVars);
 
                 $user->details()->create($userVars); 
