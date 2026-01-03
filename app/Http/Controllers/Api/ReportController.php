@@ -80,14 +80,28 @@ class ReportController extends Controller
             ->whereIn('account_id', $accounts)
             ->whereNotNull('approved_by')
             ->sum('amount');
-
-
         }
 
 
 
         ///////////////////////////////////////TOTAL WITHDRAWALS //////////////////////////////////////////////////////
 
+        $transactionType = TransactionType::where('transaction_type', 'Withdrawal')->first();
+
+        if($showAdminReports === true){
+
+            $totalWithdrawals =  AccountTransaction::where('transaction_type_id', $transactionType->id)
+            ->whereNotNull('approved_by')
+            ->sum('amount');
+
+        }
+        else{
+
+            $totalWithdrawals =  AccountTransaction::where('transaction_type_id', $transactionType->id)
+            ->whereIn('account_id', $accounts)
+            ->whereNotNull('approved_by')
+            ->sum('amount');
+        }
 
 
         if($showAdminReports === true){
@@ -100,7 +114,7 @@ class ReportController extends Controller
                     'active_members' => $totalActiveMembers,
                     'pending_registrations' => $pendingRegistrations,
                     'total_deposits' => $totalDeposits,
-
+                    'total_withdrawals' => $totalWithdrawals
         
                 ],
             ]);
@@ -111,8 +125,8 @@ class ReportController extends Controller
 
                 'message' => 'success',
                 'data' => [
-
-        
+                    
+                    
                 ],
             ]);
 

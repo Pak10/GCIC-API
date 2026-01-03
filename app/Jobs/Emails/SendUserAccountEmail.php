@@ -5,10 +5,10 @@ namespace App\Jobs\Emails;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Mail;
-use App\Mail\SendEmailOtp as SendOtpMail;
+use App\Mail\SendUserAccountEmail as SendUserAccountMail;
 use Log;
 
-class SendEmailOtp implements ShouldQueue
+class SendUserAccountEmail implements ShouldQueue
 {
     use Queueable;
 
@@ -18,13 +18,14 @@ class SendEmailOtp implements ShouldQueue
 
     protected $user;
 
-    protected $otp;
+    protected $password;
 
-    public function __construct($user, $otp)
+    public function __construct($user, $password)
     {
+        
         $this->user = $user;
 
-        $this->otp = $otp;
+        $this->password = $password;
     }
 
     /**
@@ -33,7 +34,8 @@ class SendEmailOtp implements ShouldQueue
     public function handle(): void
     {
         try{
-            $email = new SendOtpMail($this->user, $this->otp);
+            
+            $email = new SendUserAccountMail($this->user, $this->password);
 
             Mail::to($this->user->email)->send($email);
           

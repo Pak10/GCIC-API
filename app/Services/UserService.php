@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\UserStatus;
 use App\Models\Administration\UserRegistration;
+use App\Jobs\Emails\SendUserAccountEmail;
 
 
 class UserService {
@@ -46,6 +47,9 @@ class UserService {
                 $user->assignRole($userVars['role']);
 
                 // Send email
+
+                $sendMail = SendUserAccountEmail::dispatch($user, $password);
+
 
             DB::commit();
 
