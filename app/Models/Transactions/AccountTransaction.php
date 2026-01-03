@@ -9,6 +9,7 @@ use OwenIt\Auditing\Auditable as AuditableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Administration\Account;
 
 class AccountTransaction extends Model implements  Auditable
 {
@@ -36,5 +37,9 @@ class AccountTransaction extends Model implements  Auditable
         'data' => 'array',
     ];
 
+    public function account(): BelongsTo
+    {
+        return $this->belongsTo(Account::class, 'account_id');
+    }
     
 }
