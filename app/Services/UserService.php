@@ -36,8 +36,15 @@ class UserService {
 
                 $password =  Str::password(8);
 
-                $userVars['password'] = bcrypt($password);
-                $userVars['name'] = $userVars['first_name'].' '.$userVars['last_name'].' '.isset($userVars['other_name']) ? $userVars['other_name']:'';
+                if(isset($userVars['other_name']) && !empty($userVars['other_name'])){
+
+                    $userVars['name'] = $userVars['first_name'].' '.$userVars['last_name'].' '.$userVars['other_name'];
+                }
+                else{
+
+                    $userVars['name'] = $userVars['first_name'].' '.$userVars['last_name'];
+                }
+
                 $userVars['user_status_id'] = $userStatus->id;
 
                 $user = User::create($userVars);
@@ -48,7 +55,7 @@ class UserService {
 
                 // Send email
 
-                $sendMail = SendUserAccountEmail::dispatch($user, $password);
+                $sendMail = SendUserAccountEmail::dispatch($user,$password);
 
 
             DB::commit();
