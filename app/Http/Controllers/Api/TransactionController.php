@@ -92,14 +92,14 @@ class TransactionController extends Controller
 
             $accounts = Account::where('user_id', $user->id)->pluck('id');
 
-            $accountTransactions = AccountTransaction::with(['account'])->whereIn('account_id', $accounts)->orderBy('created_at', 'desc');
+            $accountTransactions = AccountTransaction::with(['account.user'])->whereIn('account_id', $accounts)->orderBy('created_at', 'desc');
 
         }
         else{
 
             if($user->can('view-transactions')){
 
-                $accountTransactions = AccountTransaction::with(['account'])->orderBy('created_at', 'desc');
+                $accountTransactions = AccountTransaction::with(['account.user'])->orderBy('created_at', 'desc');
             }
             else{
         
