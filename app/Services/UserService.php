@@ -37,7 +37,7 @@ class UserService {
                 $password =  Str::password(8);
 
                 $userVars['password'] = bcrypt($password);
-                $userVars['name'] = $userVars['first_name'].' '.$userVars['last_name'].' '.$userVars['other_name'];
+                $userVars['name'] = $userVars['first_name'].' '.$userVars['last_name'].' '.isset($userVars['other_name']) ? $userVars['other_name']:'';
                 $userVars['user_status_id'] = $userStatus->id;
 
                 $user = User::create($userVars);
