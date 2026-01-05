@@ -373,7 +373,7 @@ class InvestmentController extends Controller
         }
 
 
-        $investmentTransactions  = InvestmentTransaction::with(['type', 'investment', 'accountTransaction','account'])
+        $investmentTransactions  = InvestmentTransaction::with(['type', 'investment', 'accountTransaction','account.user'])
         ->where('investment_id', $investment->id)->orderBy('created_at', 'desc');
 
 
