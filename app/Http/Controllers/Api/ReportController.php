@@ -103,6 +103,14 @@ class ReportController extends Controller
             ->sum('amount');
         }
 
+        ////////////////////////////////////REFERRALS //////////////////////////////////////////////////////
+
+
+        if($showAdminReports === false){
+
+            $totalReferrals =  User::where('referred_by'. $user->id)->count();
+        }
+
 
         if($showAdminReports === true){
 
@@ -121,13 +129,16 @@ class ReportController extends Controller
         }
         else{
 
+
+
             return response()->json([
 
                 'message' => 'success',
                 'data' => [
                     
-                    
-                ],
+                    'total_withdrawals' => $totalWithdrawals,
+                    'total_referrals' => $totalReferrals
+                ], 
             ]);
 
         }
