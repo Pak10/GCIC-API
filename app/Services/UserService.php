@@ -30,6 +30,7 @@ class UserService {
                     'self_registration' => $selfRegistration,
                     'registration_reference' => $userVars['registration_reference'],
                     'category' => $userVars['category'],
+                    'status' => 'approved',
                 ]); 
 
                 $userStatus =  UserStatus::select('id', 'status')->where('status', 'Active')->first();

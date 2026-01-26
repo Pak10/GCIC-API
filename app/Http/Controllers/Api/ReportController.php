@@ -58,7 +58,7 @@ class ReportController extends Controller
 
         if($showAdminReports === true){
 
-            $pendingRegistrations =  UserRegistration::where('status', 'pending')->count();
+            $pendingRegistrations =  UserRegistration::where('status', 'pending')->where('category', 'member')->count();
 
         }
 
